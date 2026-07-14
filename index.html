@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Залипаю</title>
-    <!-- Стили библиотеки Swiper для свайпов -->
-    <link rel="stylesheet" href="https://yastatic.net" />
-    <!-- Наши кастомные стили -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,7 +23,7 @@
         </div>
     </div>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ (адаптивная сетка) -->
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
     <main id="main-content" class="main-layout hidden">
         
         <header class="aesthetic-header">
@@ -34,54 +31,52 @@
             <p class="sub-quote">«...в руке бутылка пива»</p>
         </header>
 
-        <!-- УНИВЕРСАЛЬНАЯ ГАЛЕРЕЯ КАРТОЧЕК -->
+        <!-- АВТОНОМНАЯ ГАЛЕРЕЯ КАРТОЧЕК (Без внешних CDN библиотек) -->
         <section class="gallery-container">
-            <div class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    <!-- Карточка 1 -->
-                    <div class="swiper-slide">
-                        <div class="polaroid-card">
-                            <div class="photo-wrapper">
-                                <img src="photo1.jpg" alt="Рыжие волосы, веснушки">
-                            </div>
-                            <div class="polaroid-caption">melancholy.jpg</div>
+            <div class="custom-scroll-gallery">
+                <!-- Карточка 1 -->
+                <div class="scroll-slide">
+                    <div class="polaroid-card">
+                        <div class="photo-wrapper">
+                            <img src="photo1.JPG" alt="Рыжие волосы, веснушки">
                         </div>
+                        <div class="polaroid-caption">melancholy.jpg</div>
                     </div>
-                    <!-- Карточка 2 -->
-                    <div class="swiper-slide">
-                        <div class="polaroid-card">
-                            <div class="photo-wrapper">
-                                <img src="photo2.jpg" alt="Селфи в очках">
-                            </div>
-                            <div class="polaroid-caption">lo-fi_mood.jpg</div>
+                </div>
+                <!-- Карточка 2 -->
+                <div class="scroll-slide">
+                    <div class="polaroid-card">
+                        <div class="photo-wrapper">
+                            <img src="photo2.JPG" alt="Селфи в очках">
                         </div>
+                        <div class="polaroid-caption">lo-fi_mood.jpg</div>
                     </div>
-                    <!-- Карточка 3 -->
-                    <div class="swiper-slide">
-                        <div class="polaroid-card">
-                            <div class="photo-wrapper">
-                                <img src="photo3.jpg" alt="Вид со спины на природу">
-                            </div>
-                            <div class="polaroid-caption">escapism.jpg</div>
+                </div>
+                <!-- Карточка 3 -->
+                <div class="scroll-slide">
+                    <div class="polaroid-card">
+                        <div class="photo-wrapper">
+                            <img src="photo3.JPG" alt="Вид со спины на природу">
                         </div>
+                        <div class="polaroid-caption">escapism.jpg</div>
                     </div>
-                    <!-- Карточка 4 -->
-                    <div class="swiper-slide">
-                        <div class="polaroid-card">
-                            <div class="photo-wrapper">
-                                <img src="photo4.jpg" alt="Взгляд в капюшоне">
-                            </div>
-                            <div class="polaroid-caption">залипаю.jpg</div>
+                </div>
+                <!-- Карточка 4 -->
+                <div class="scroll-slide">
+                    <div class="polaroid-card">
+                        <div class="photo-wrapper">
+                            <img src="photo4.JPG" alt="Взгляд в капюшоне">
                         </div>
+                        <div class="polaroid-caption">залипаю.jpg</div>
                     </div>
-                    <!-- Карточка 5 -->
-                    <div class="swiper-slide">
-                        <div class="polaroid-card">
-                            <div class="photo-wrapper">
-                                <img src="photo5.jpg" alt="Вспышка у забора">
-                            </div>
-                            <div class="polaroid-caption">underground.jpg</div>
+                </div>
+                <!-- Карточка 5 -->
+                <div class="scroll-slide">
+                    <div class="polaroid-card">
+                        <div class="photo-wrapper">
+                            <img src="photo5.JPG" alt="Вспышка у забора">
                         </div>
+                        <div class="polaroid-caption">underground.jpg</div>
                     </div>
                 </div>
             </div>
@@ -96,7 +91,7 @@
             </div>
         </section>
 
-        <!-- ЭКРАН "ЗАЛИПАНИЯ" (Гаснет на ПК и телефонах) -->
+        <!-- ЭКРАН "ЗАЛИПАНИЯ" -->
         <div id="idle-screen" class="idle-overlay hidden-fade">
             <div class="idle-content">
                 <p class="idle-text-line">Я залипаю в потолок...</p>
@@ -107,22 +102,19 @@
         <!-- КАССЕТНЫЙ ПЛЕЕР -->
         <footer class="player-footer">
             <div class="cassette-container" id="player-toggle">
-                <audio id="bg-music" src="music.mp3" loop prefetch></audio>
-                <audio id="beer-sound" src="beer_open.mp3"></audio>
+                <!-- Крупный регистр MP3 для совместимости с сервером Linux -->
+                <audio id="bg-music" src="music.MP3" loop prefetch></audio>
+                <audio id="beer-sound" src="beer_open.MP3"></audio>
 
                 <div class="cassette-deck">
                     <div class="cassette-window">
-                        <div class="tape-wheel left-wheel paused">
-                            <div class="wheel-lines"></div>
-                        </div>
+                        <div class="tape-wheel left-wheel paused"><div class="wheel-lines"></div></div>
                         <div class="tape-reel"></div>
-                        <div class="tape-wheel right-wheel paused">
-                            <div class="wheel-lines"></div>
-                        </div>
+                        <div class="tape-wheel right-wheel paused"><div class="wheel-lines"></div></div>
                     </div>
                     <div class="cassette-label">
                         <span class="label-artist">АПФС</span>
-                        <span class="label-track">Залипаю (A-Side)</span>
+                        <span class="label-track">Ма, я лаю (A-Side)</span>
                     </div>
                 </div>
             </div>
@@ -130,8 +122,6 @@
 
     </main>
 
-    <!-- Скрипты -->
-    <script src="https://jsdelivr.net"></script>
     <script src="script.js"></script>
 </body>
 </html>
