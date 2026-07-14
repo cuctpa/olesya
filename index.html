@@ -43,7 +43,7 @@
                             <div class="flip-card-front">
                                 <div class="polaroid-card">
                                     <div class="photo-wrapper"><img src="photo1.jpg" onerror="this.onerror=null; this.src='photo1.JPG';"></div>
-                                    <div class="polaroid-caption">melancholy.jpg</div>
+                                    <div class="polaroid-caption">melancholy.jpg <span class="hint-blink">[тапни]</span></div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -60,7 +60,7 @@
                             <div class="flip-card-front">
                                 <div class="polaroid-card">
                                     <div class="photo-wrapper"><img src="photo2.jpg" onerror="this.onerror=null; this.src='photo2.JPG';"></div>
-                                    <div class="polaroid-caption">lo-fi_mood.jpg</div>
+                                    <div class="polaroid-caption">lo-fi_mood.jpg <span class="hint-blink">[тапни]</span></div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -77,7 +77,7 @@
                             <div class="flip-card-front">
                                 <div class="polaroid-card">
                                     <div class="photo-wrapper"><img src="photo3.jpg" onerror="this.onerror=null; this.src='photo3.JPG';"></div>
-                                    <div class="polaroid-caption">escapism.jpg</div>
+                                    <div class="polaroid-caption">escapism.jpg <span class="hint-blink">[тапни]</span></div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -94,7 +94,7 @@
                             <div class="flip-card-front">
                                 <div class="polaroid-card">
                                     <div class="photo-wrapper"><img src="photo4.jpg" onerror="this.onerror=null; this.src='photo4.JPG';"></div>
-                                    <div class="polaroid-caption">залипаю.jpg</div>
+                                    <div class="polaroid-caption">залипаю.jpg <span class="hint-blink">[тапни]</span></div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -104,14 +104,14 @@
                     </div>
                 </div>
 
-                <!-- Карточка 5 (Тут всё исправлено) -->
+                <!-- Карточка 5 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
                         <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <div class="polaroid-card">
                                     <div class="photo-wrapper"><img src="photo5.jpg" onerror="this.onerror=null; this.src='photo5.JPG';"></div>
-                                    <div class="polaroid-caption">underground.jpg</div>
+                                    <div class="polaroid-caption">underground.jpg <span class="hint-blink">[тапни]</span></div>
                                 </div>
                             </div>
                             <div class="flip-card-back">
@@ -124,10 +124,12 @@
             </div>
         </section>
 
+        <!-- ПИВНОЙ БАР С ПОДСКАЗКОЙ ПРО 5 ЛИТРОВ -->
         <section class="beer-bar-section">
             <div class="beer-counter-card">
                 <span class="counter-label">ВЫПИТО ПИВА ВМЕСТЕ:</span>
                 <div class="counter-value"><span id="beer-count">0</span> л</div>
+                <div class="secret-goal-box" id="goal-text">цель: 5.0 л (открой секрет)</div>
                 <button class="add-beer-btn" id="pour-beer-btn">➕ Сделать глоток</button>
             </div>
         </section>
