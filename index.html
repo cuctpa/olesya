@@ -8,13 +8,10 @@
 </head>
 <body>
 
-    <!-- Аналоговые ТВ-помехи на весь экран -->
     <div class="tv-noise"></div>
 
-    <!-- ЭКРАН ВХОДА (ИНТРО) -->
     <div id="intro-screen" class="screen">
         <div class="intro-content">
-            <!-- Пивная крышка -->
             <div class="beer-cap-trigger" id="cap-btn">
                 <div class="cap-ridges"></div>
                 <div class="cap-core"></div>
@@ -23,7 +20,6 @@
         </div>
     </div>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
     <main id="main-content" class="main-layout hidden">
         
         <header class="aesthetic-header">
@@ -31,50 +27,45 @@
             <p class="sub-quote">«...в руке бутылка пива»</p>
         </header>
 
-        <!-- АВТОНОМНАЯ ГАЛЕРЕЯ КАРТОЧЕК (Без внешних CDN библиотек) -->
+        <!-- Галерея со страховкой: если не грузит один регистр, JS подменит на другой -->
         <section class="gallery-container">
             <div class="custom-scroll-gallery">
-                <!-- Карточка 1 -->
                 <div class="scroll-slide">
                     <div class="polaroid-card">
                         <div class="photo-wrapper">
-                            <img src="photo1.JPG" alt="Рыжие волосы, веснушки">
+                            <img src="photo1.jpg" onerror="this.onerror=null; this.src='photo1.JPG';" alt="Фото 1">
                         </div>
                         <div class="polaroid-caption">melancholy.jpg</div>
                     </div>
                 </div>
-                <!-- Карточка 2 -->
                 <div class="scroll-slide">
                     <div class="polaroid-card">
                         <div class="photo-wrapper">
-                            <img src="photo2.JPG" alt="Селфи в очках">
+                            <img src="photo2.jpg" onerror="this.onerror=null; this.src='photo2.JPG';" alt="Фото 2">
                         </div>
                         <div class="polaroid-caption">lo-fi_mood.jpg</div>
                     </div>
                 </div>
-                <!-- Карточка 3 -->
                 <div class="scroll-slide">
                     <div class="polaroid-card">
                         <div class="photo-wrapper">
-                            <img src="photo3.JPG" alt="Вид со спины на природу">
+                            <img src="photo3.jpg" onerror="this.onerror=null; this.src='photo3.JPG';" alt="Фото 3">
                         </div>
                         <div class="polaroid-caption">escapism.jpg</div>
                     </div>
                 </div>
-                <!-- Карточка 4 -->
                 <div class="scroll-slide">
                     <div class="polaroid-card">
                         <div class="photo-wrapper">
-                            <img src="photo4.JPG" alt="Взгляд в капюшоне">
+                            <img src="photo4.jpg" onerror="this.onerror=null; this.src='photo4.JPG';" alt="Фото 4">
                         </div>
                         <div class="polaroid-caption">залипаю.jpg</div>
                     </div>
                 </div>
-                <!-- Карточка 5 -->
                 <div class="scroll-slide">
                     <div class="polaroid-card">
                         <div class="photo-wrapper">
-                            <img src="photo5.JPG" alt="Вспышка у забора">
+                            <img src="photo5.jpg" onerror="this.onerror=null; this.src='photo5.JPG';" alt="Фото 5">
                         </div>
                         <div class="polaroid-caption">underground.jpg</div>
                     </div>
@@ -82,7 +73,6 @@
             </div>
         </section>
 
-        <!-- ПИВНОЙ БАР С КНОПКОЙ -->
         <section class="beer-bar-section">
             <div class="beer-counter-card">
                 <span class="counter-label">ВЫПИТО ПИВА ВМЕСТЕ:</span>
@@ -91,7 +81,6 @@
             </div>
         </section>
 
-        <!-- ЭКРАН "ЗАЛИПАНИЯ" -->
         <div id="idle-screen" class="idle-overlay hidden-fade">
             <div class="idle-content">
                 <p class="idle-text-line">Я залипаю в потолок...</p>
@@ -99,12 +88,20 @@
             </div>
         </div>
 
-        <!-- КАССЕТНЫЙ ПЛЕЕР -->
         <footer class="player-footer">
             <div class="cassette-container" id="player-toggle">
-                <!-- Крупный регистр MP3 для совместимости с сервером Linux -->
-                <audio id="bg-music" src="music.MP3" loop prefetch></audio>
-                <audio id="beer-sound" src="beer_open.MP3"></audio>
+                
+                <!-- Двойной источник аудио для музыки (сначала маленькие буквы, затем большие) -->
+                <audio id="bg-music" loop prefetch>
+                    <source src="music.mp3" type="audio/mpeg">
+                    <source src="music.MP3" type="audio/mpeg">
+                </audio>
+
+                <!-- Двойной источник для звука пива -->
+                <audio id="beer-sound">
+                    <source src="beer_open.mp3" type="audio/mpeg">
+                    <source src="beer_open.MP3" type="audio/mpeg">
+                </audio>
 
                 <div class="cassette-deck">
                     <div class="cassette-window">
