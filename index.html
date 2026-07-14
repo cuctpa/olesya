@@ -8,13 +8,15 @@
 </head>
 <body>
 
-    <!-- Аналоговые ТВ-помехи на весь экран -->
+    <!-- Контейнер для эффекта падающих романтичных сердец -->
+    <div id="heart-rain-container"></div>
+    
+    <!-- Эффект виньетки и ТВ-помех -->
+    <div class="vignette"></div>
     <div class="tv-noise"></div>
 
-    <!-- ЭКРАН ВХОДА (ИНТРО) -->
     <div id="intro-screen" class="screen">
         <div class="intro-content">
-            <!-- Пивная крышка -->
             <div class="beer-cap-trigger" id="cap-btn">
                 <div class="cap-ridges"></div>
                 <div class="cap-core"></div>
@@ -23,66 +25,104 @@
         </div>
     </div>
 
-    <!-- ОСНОВНОЙ КОНТЕНТ -->
     <main id="main-content" class="main-layout hidden">
         
         <header class="aesthetic-header">
-            <h1 class="glitch-text">автостопом по фазе сна</h1>
+            <h1 class="glitch-text" data-text="автостопом по фазе сна">автостопом по фазе сна</h1>
             <p class="sub-quote">«...в руке бутылка пива»</p>
         </header>
 
-        <!-- АВТОНОМНАЯ ГАЛЕРЕЯ КАРТОЧЕК -->
+        <!-- Галерея с интерактивным переворотом карт (3D Flip) -->
         <section class="gallery-container">
             <div class="custom-scroll-gallery">
+                
                 <!-- Карточка 1 -->
                 <div class="scroll-slide">
-                    <div class="polaroid-card">
-                        <div class="photo-wrapper">
-                            <img src="photo1.jpg" onerror="this.onerror=null; this.src='photo1.JPG';" alt="Фото 1">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="polaroid-card">
+                                    <div class="photo-wrapper"><img src="photo1.jpg" onerror="this.onerror=null; this.src='photo1.JPG';"></div>
+                                    <div class="polaroid-caption">melancholy.jpg</div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="back-love-text">Твои веснушки — это целая вселенная, в которой я готов залипать бесконечно. ✨</p>
+                            </div>
                         </div>
-                        <div class="polaroid-caption">melancholy.jpg</div>
                     </div>
                 </div>
+
                 <!-- Карточка 2 -->
                 <div class="scroll-slide">
-                    <div class="polaroid-card">
-                        <div class="photo-wrapper">
-                            <img src="photo2.jpg" onerror="this.onerror=null; this.src='photo2.JPG';" alt="Фото 2">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="polaroid-card">
+                                    <div class="photo-wrapper"><img src="photo2.jpg" onerror="this.onerror=null; this.src='photo2.JPG';"></div>
+                                    <div class="polaroid-caption">lo-fi_mood.jpg</div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="back-love-text">Обожаю твой бунтарский вайб и эту улыбку. С тобой всегда тепло. 🖤</p>
+                            </div>
                         </div>
-                        <div class="polaroid-caption">lo-fi_mood.jpg</div>
                     </div>
                 </div>
+
                 <!-- Карточка 3 -->
                 <div class="scroll-slide">
-                    <div class="polaroid-card">
-                        <div class="photo-wrapper">
-                            <img src="photo3.jpg" onerror="this.onerror=null; this.src='photo3.JPG';" alt="Фото 3">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="polaroid-card">
+                                    <div class="photo-wrapper"><img src="photo3.jpg" onerror="this.onerror=null; this.src='photo3.JPG';"></div>
+                                    <div class="polaroid-caption">escapism.jpg</div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="back-love-text">Готов сбежать с тобой на край света, хоть в глухой лес к реке, лишь бы вдвоем. 🌲</p>
+                            </div>
                         </div>
-                        <div class="polaroid-caption">escapism.jpg</div>
                     </div>
                 </div>
+
                 <!-- Карточка 4 -->
                 <div class="scroll-slide">
-                    <div class="polaroid-card">
-                        <div class="photo-wrapper">
-                            <img src="photo4.jpg" onerror="this.onerror=null; this.src='photo4.JPG';" alt="Фото 4">
+                    <div class="flip-card">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <div class="polaroid-card">
+                                    <div class="photo-wrapper"><img src="photo4.jpg" onerror="this.onerror=null; this.src='photo4.JPG';"></div>
+                                    <div class="polaroid-caption">залипаю.jpg</div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="back-love-text">Твой взгляд из-под капюшона крадет мое сердце каждый раз, как в первый. 💔</p>
+                            </div>
                         </div>
-                        <div class="polaroid-caption">залипаю.jpg</div>
                     </div>
                 </div>
+
                 <!-- Карточка 5 -->
                 <div class="scroll-slide">
-                    <div class="polaroid-card">
-                        <div class="photo-wrapper">
-                            <img src="photo5.jpg" onerror="this.onerror=null; this.src='photo5.JPG';" alt="Фото 5">
+                    <div class="flip-card">
+                        <div class="flip-card-inner"> front">
+                                <div class="polaroid-card">
+                                    <div class="photo-wrapper"><img src="photo5.jpg" onerror="this.onerror=null; this.src='photo5.JPG';"></div>
+                                    <div class="polaroid-caption">underground.jpg</div>
+                                </div>
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="back-love-text">Тот самый трушный каноничный кадр. Самая лучшая девочка на этой планете. 👑</p>
+                            </div>
                         </div>
-                        <div class="polaroid-caption">underground.jpg</div>
                     </div>
                 </div>
+
             </div>
         </section>
 
-        <!-- ПИВНОЙ БАР С КНОПКОЙ -->
         <section class="beer-bar-section">
             <div class="beer-counter-card">
                 <span class="counter-label">ВЫПИТО ПИВА ВМЕСТЕ:</span>
@@ -91,7 +131,6 @@
             </div>
         </section>
 
-        <!-- ЭКРАН "ЗАЛИПАНИЯ" С ДИНАМИЧЕСКИМ ТЕКСТОМ ПЕСНИ -->
         <div id="idle-screen" class="idle-overlay hidden-fade">
             <div class="idle-content">
                 <p class="idle-text-line" id="lyrics-line">Я залипаю в потолок...</p>
@@ -99,17 +138,12 @@
             </div>
         </div>
 
-        <!-- КАССЕТНЫЙ ПЛЕЕР -->
         <footer class="player-footer">
             <div class="cassette-container" id="player-toggle">
-                
-                <!-- Двойной источник аудио для музыки -->
                 <audio id="bg-music" loop prefetch>
                     <source src="music.mp3" type="audio/mpeg">
                     <source src="music.MP3" type="audio/mpeg">
                 </audio>
-
-                <!-- Двойной источник для звука пива -->
                 <audio id="beer-sound">
                     <source src="beer_open.mp3" type="audio/mpeg">
                     <source src="beer_open.MP3" type="audio/mpeg">
