@@ -12,12 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const beerCountEl = document.getElementById('beer-count');
     const idleScreen = document.getElementById('idle-screen');
     const lyricsLine = document.getElementById('lyrics-line');
+    const rainContainer = document.getElementById('heart-rain-container'); // Контейнер сердец
 
     let idleTimer;
     let beerLiters = 0;
     let audioCtx, source, lowpassFilter;
 
-    // Синхронизация текста под трек АПФС — «Ма, я лаю» (в секундах)
     const lyricsTimings = [
         { time: 0, text: "Я залипаю в потолок..." },
         { time: 4, text: "Малая, проглоти со мной, и я тебе полаю" },
@@ -57,31 +57,52 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { tvNoise.classList.remove('glitch-flash'); }, duration);
     }
 
-    // Клик по крышке (Старт сайта)
-    capBtn.addEventListener('click', () => {
-        try {
-            beerSound.play().catch(e => console.log("Звук открывашки пропущен:", e));
-        } catch(err) { console.log(err); }
+    // ГЕНЕРАЦИЯ ПАДАЮЩИХ СЕРДЕЧЕК (Романтический дождь)
+    function createFallingHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('falling-heart');
         
+        // Рандомный выбор формы сердца (целое или разбитое)
+        const heartTypes = ['🖤', '💔', '❤️'];
+        heart.textContent = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+        
+        heart.style.left = Math.random() * 100 + 'vw';
+        const size = Math.random() * 12 + 14; // Размер от 14px до 26px
+        heart.style.fontSize = size + 'px';
+        heart.style.animationDuration = Math.random() * 2.0 + 2.0 + 's'; // Время падения
+
+        rainContainer.appendChild(heart);
+        setTimeout(() => { heart.remove(); }, 4000);
+    }
+
+    // 3D-Переворот карточек по клику/тапу
+    const flipCards = document.querySelectorAll('.flip-card');
+    flipCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            triggerGlitchFlash(80); // Легкий щелчок помех при клике на фото
+            card.classList.toggle('is-flipped');
+        });
+    });
+
+    // Клик по крышке
+    capBtn.addEventListener('click', () => {
+        try { beerSound.play().catch(() => {}); } catch(err) {}
         triggerGlitchFlash(400);
         introScreen.style.opacity = '0';
         
         setTimeout(() => {
             introScreen.classList.add('hidden');
             mainContent.classList.remove('hidden');
-            
             try {
-                bgMusic.volume = 0.15; // Делаем музыку тихой на старте (15%)
-                bgMusic.play().catch(e => console.log("Браузер отложил музыку:", e));
-            } catch(err) { console.log(err); }
-
+                bgMusic.volume = 0.15;
+                bgMusic.play().catch(() => {});
+            } catch(err) {}
             wheels.forEach(w => w.classList.remove('paused'));
             initAudioFilters();
             resetIdleTimer();
         }, 600);
     });
 
-    // Пауза/Плей плеера
     playerToggle.addEventListener('click', () => {
         triggerGlitchFlash(120);
         if (bgMusic.paused) {
@@ -93,12 +114,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Кнопка глотка
+    // Кнопка глотка (Романтический интерактив)
     pourBeerBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         beerLiters += 0.5;
         beerCountEl.textContent = beerLiters.toFixed(1);
         triggerGlitchFlash(150);
+        
+        // Спавним дождь из 4 сердечек при каждом глотке!
+        for(let i=0; i<4; i++) {
+            setTimeout(createFallingHeart, i * 150);
+        }
+
+        // Если выпито больше 5.0 литров — включаем пьяное покачивание
+        if (beerLiters >= 5.0) {
+            document.body.classList.add('drunk-mode');
+        }
+
         if (navigator.vibrate) navigator.vibrate(30);
         beerCountEl.style.transform = 'scale(1.2)';
         setTimeout(() => { beerCountEl.style.transform = 'scale(1)'; }, 120);
@@ -109,17 +141,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             audioCtx = new AudioContext();
             source = audioCtx.createMediaElementSource(bgMusic);
-            
             lowpassFilter = audioCtx.createBiquadFilter();
             lowpassFilter.type = 'lowpass';
             lowpassFilter.frequency.setValueAtTime(20000, audioCtx.currentTime);
-
             source.connect(lowpassFilter);
             lowpassFilter.connect(audioCtx.destination);
-        } catch(err) { console.log("Фильтры Web Audio ограничены браузером", err); }
+        } catch(err) {}
     }
 
-    // Бегущая строка текста песни
     function updateLyrics() {
         if (!idleScreen.classList.contains('active-idle')) return;
 
@@ -132,12 +161,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // ПАСХАЛКА ДЛЯ ДЕВУШКИ: Если включен Drunk-mode, жестко меняем ключевую строчку на любовное признание
+        if (document.body.classList.contains('drunk-mode') && currentText.includes("Я блевал на полу")) {
+            currentText = "Я блевал на полу, не от пойла, но... Ты по-прежнему бро мой. Я люблю тебя! 🖤";
+        }
+
         if (lyricsLine.textContent !== currentText) {
             lyricsLine.style.opacity = '0';
             lyricsLine.style.transform = 'translateY(5px)';
             
             setTimeout(() => {
                 lyricsLine.textContent = currentText;
+                
+                // Подсвечиваем красным цветом каноничную фразу / признание
+                if (currentText.includes("Я блевал на полу")) {
+                    lyricsLine.classList.add('highlight-lyrics');
+                } else {
+                    lyricsLine.classList.remove('highlight-lyrics');
+                }
+
                 lyricsLine.style.opacity = '1';
                 lyricsLine.style.transform = 'translateY(0)';
             }, 250);
@@ -151,14 +193,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (lowpassFilter && audioCtx && audioCtx.state !== 'suspended') {
                 lowpassFilter.frequency.exponentialRampToValueAtTime(20000, audioCtx.currentTime + 0.4);
             }
-            bgMusic.volume = 0.15; // Возвращаем комфортную громкость 15%
+            bgMusic.volume = 0.15;
             idleScreen.classList.remove('active-idle');
             triggerGlitchFlash(200);
         }
 
         clearTimeout(idleTimer);
         if (!introScreen.classList.contains('hidden')) return;
-        idleTimer = setTimeout(activateIdleMode, 12000); // 12 секунд ожидания
+        idleTimer = setTimeout(activateIdleMode, 12000);
     }
 
     function activateIdleMode() {
@@ -166,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (lowpassFilter && audioCtx && audioCtx.state !== 'suspended') {
             lowpassFilter.frequency.exponentialRampToValueAtTime(450, audioCtx.currentTime + 1.5);
         }
-        bgMusic.volume = 0.04; // Глушим музыку до ультра-минимума (4%)
+        bgMusic.volume = 0.04;
         updateLyrics();
     }
 
