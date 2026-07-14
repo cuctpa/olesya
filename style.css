@@ -90,7 +90,7 @@ html, body {
 /* ХЕДЕР ТЕКСТ */
 .aesthetic-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 .glitch-text {
     font-size: 22px;
@@ -105,20 +105,31 @@ html, body {
     font-style: italic;
 }
 
-/* ГАЛЕРЕЯ КАРТОЧЕК (АДАПТИВНАЯ) */
+/* АВТОНОМНАЯ ГАЛЕРЕЯ (ГОРИЗОНТАЛЬНАЯ ЛЕНТА С ДОВОДОМ) */
 .gallery-container {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-grow: 1;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
 }
 
-/* Размеры по умолчанию для КОМПЬЮТЕРА (ПК) */
-.swiper {
-    width: 330px;
-    height: 450px;
+.custom-scroll-gallery {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    width: 100%;
+    max-width: 360px;
+    padding: 15px 25px;
+    scroll-snap-type: x mandatory; /* Фиксация по центру карточки */
+    scrollbar-width: none; /* Скрытие полосы прокрутки для Firefox */
+}
+.custom-scroll-gallery::-webkit-scrollbar { display: none; } /* Скрытие для Chrome/Safari */
+
+.scroll-slide {
+    flex: 0 0 310px;
+    scroll-snap-align: center; /* Центрирование при прокрутке */
 }
 
 .polaroid-card {
@@ -134,7 +145,7 @@ html, body {
 
 .photo-wrapper {
     width: 100%;
-    height: 350px;
+    height: 330px;
     background: #090909;
     overflow: hidden;
     border-radius: 2px;
@@ -224,7 +235,7 @@ html, body {
     50% { transform: translateY(-6px); }
 }
 
-/* КАССЕТНЫЙ ПЛЕЕР (НИЖНЯЯ ПАНЕЛЬ) */
+/* КАССЕТНЫЙ ПЛЕЕР */
 .player-footer {
     position: fixed;
     bottom: 0; left: 0; width: 100%;
@@ -287,14 +298,17 @@ html, body {
 .label-artist { font-size: 12px; font-weight: bold; color: #999; }
 .label-track { font-size: 11px; color: #555; }
 
-/* 📱 АДАПТАЦИЯ ПОД МОБИЛЬНЫЕ (Экран смартфона) */
+/* АДАТАЦИЯ ПОД МОБИЛЬНЫЕ */
 @media (max-width: 480px) {
-    .swiper {
-        width: 275px;
-        height: 385px;
+    .custom-scroll-gallery {
+        max-width: 100%;
+        padding: 10px 15px;
+    }
+    .scroll-slide {
+        flex: 0 0 265px;
     }
     .photo-wrapper {
-        height: 290px;
+        height: 285px;
     }
     .glitch-text { font-size: 17px; }
     .idle-text-line { font-size: 16px; }
