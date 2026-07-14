@@ -1,0 +1,302 @@
+/* ОБЩИЕ НАСТРОЙКИ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #0d0d0d;
+    color: #e2e2e2;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 30px 20px 160px 20px;
+    position: relative;
+}
+
+.hidden { display: none !important; }
+
+/* ТВ-ПОМЕХИ НА ФОНЕ */
+.tv-noise {
+    position: fixed;
+    top: -50%; left: -50%; right: -50%; bottom: -50%;
+    width: 200%; height: 200%;
+    background: url('https://giphy.com');
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity 0.15s ease;
+}
+.tv-noise.glitch-flash { opacity: 0.22; }
+
+/* ЭКРАН БЛОКИРОВКИ */
+#intro-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #0a0a0a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.6s ease;
+}
+
+.beer-cap-trigger {
+    width: 120px; height: 120px;
+    background: #FFBF00;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto 25px auto;
+    box-shadow: 0 0 30px rgba(255, 191, 0, 0.4);
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+.beer-cap-trigger:active { transform: scale(0.92); }
+
+.cap-ridges {
+    position: absolute;
+    top: -4px; left: -4px; right: -4px; bottom: -4px;
+    border-radius: 50%;
+    border: 4px dashed #cc9900;
+}
+.cap-core {
+    position: absolute;
+    top: 12px; left: 12px; right: 12px; bottom: 12px;
+    border-radius: 50%;
+    border: 2px inset rgba(255, 255, 255, 0.3);
+}
+
+.tap-instruction {
+    color: #FFBF00;
+    font-size: 13px;
+    letter-spacing: 3px;
+    font-weight: bold;
+    animation: pulseText 2s infinite ease-in-out;
+}
+@keyframes pulseText {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
+
+/* ХЕДЕР ТЕКСТ */
+.aesthetic-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.glitch-text {
+    font-size: 22px;
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+    color: #8c8c8c;
+    margin-bottom: 6px;
+}
+.sub-quote {
+    font-size: 12px;
+    color: #FFBF00;
+    font-style: italic;
+}
+
+/* ГАЛЕРЕЯ КАРТОЧЕК (АДАПТИВНАЯ) */
+.gallery-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    margin-bottom: 40px;
+}
+
+/* Размеры по умолчанию для КОМПЬЮТЕРА (ПК) */
+.swiper {
+    width: 330px;
+    height: 450px;
+}
+
+.polaroid-card {
+    background: #141414;
+    padding: 15px 15px 30px 15px;
+    border: 1px solid #222;
+    border-radius: 4px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.photo-wrapper {
+    width: 100%;
+    height: 350px;
+    background: #090909;
+    overflow: hidden;
+    border-radius: 2px;
+}
+.photo-wrapper img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(10%) contrast(102%);
+}
+
+.polaroid-caption {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #5c5c5c;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+/* ПИВНОЙ БАР */
+.beer-bar-section {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+}
+.beer-counter-card {
+    background: #111;
+    border: 1px dashed #2c2c2c;
+    padding: 20px;
+    text-align: center;
+    border-radius: 4px;
+}
+.counter-label {
+    font-size: 11px;
+    color: #666;
+    display: block;
+    margin-bottom: 6px;
+}
+.counter-value {
+    font-size: 32px;
+    font-weight: bold;
+    color: #FFBF00;
+    margin-bottom: 15px;
+    transition: transform 0.1s ease;
+}
+.add-beer-btn {
+    background: transparent;
+    border: 1px solid #FFBF00;
+    color: #FFBF00;
+    font-family: inherit;
+    font-size: 12px;
+    padding: 10px 22px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.add-beer-btn:hover { background: rgba(255, 191, 0, 0.05); }
+.add-beer-btn:active { transform: scale(0.95); }
+
+/* ЗАСТАВКА ЗАЛИПАНИЯ */
+.idle-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #060606;
+    z-index: 1500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+}
+.idle-overlay.active-idle {
+    opacity: 0.98;
+    pointer-events: auto;
+}
+.idle-text-line {
+    color: #FFBF00;
+    font-size: 20px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+    animation: floatText 3s infinite ease-in-out;
+}
+.idle-subtext { color: #3c3c3c; font-size: 11px; }
+
+@keyframes floatText {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* КАССЕТНЫЙ ПЛЕЕР (НИЖНЯЯ ПАНЕЛЬ) */
+.player-footer {
+    position: fixed;
+    bottom: 0; left: 0; width: 100%;
+    background: linear-gradient(to top, #090909 85%, transparent);
+    padding: 25px 20px;
+    z-index: 900;
+}
+.cassette-container {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+}
+.cassette-deck {
+    background: #161616;
+    border: 2px solid #222;
+    border-radius: 6px;
+    padding: 14px;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+}
+.cassette-window {
+    width: 65%; height: 42px;
+    background: #070707;
+    margin: 0 auto 12px auto;
+    border-radius: 4px;
+    border: 1px dashed #2a2a2a;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.tape-wheel {
+    width: 26px; height: 26px;
+    border: 4px dotted #3a3a3a;
+    border-radius: 50%;
+    position: relative;
+    animation: rotateWheel 3.5s linear infinite;
+}
+.wheel-lines {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 100%; height: 2px;
+    background: #444;
+    transform: translate(-50%, -50%);
+}
+.tape-wheel.paused { animation-play-state: paused !important; }
+
+@keyframes rotateWheel {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.cassette-label {
+    display: flex;
+    justify-content: space-between;
+    background: #1f1f1f;
+    border-left: 4px solid #FFBF00;
+    padding: 5px 10px;
+    border-radius: 2px;
+}
+.label-artist { font-size: 12px; font-weight: bold; color: #999; }
+.label-track { font-size: 11px; color: #555; }
+
+/* 📱 АДАПТАЦИЯ ПОД МОБИЛЬНЫЕ (Экран смартфона) */
+@media (max-width: 480px) {
+    .swiper {
+        width: 275px;
+        height: 385px;
+    }
+    .photo-wrapper {
+        height: 290px;
+    }
+    .glitch-text { font-size: 17px; }
+    .idle-text-line { font-size: 16px; }
+    .counter-value { font-size: 26px; }
+}

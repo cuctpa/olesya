@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Залипаю</title>
+    <!-- Стили библиотеки Swiper для свайпов -->
+    <link rel="stylesheet" href="https://jsdelivr.net" />
+    <!-- Наши кастомные стили -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Аналоговые ТВ-помехи на весь экран -->
+    <div class="tv-noise"></div>
+
+    <!-- ЭКРАН ВХОДА (ИНТРО) -->
+    <div id="intro-screen" class="screen">
+        <div class="intro-content">
+            <!-- Пивная крышка -->
+            <div class="beer-cap-trigger" id="cap-btn">
+                <div class="cap-ridges"></div>
+                <div class="cap-core"></div>
+            </div>
+            <p class="tap-instruction">КЛИКНИ / ТАПНИ, ЧТОБЫ ОТКРЫТЬ</p>
+        </div>
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ (адаптивная сетка) -->
+    <main id="main-content" class="main-layout hidden">
+        
+        <header class="aesthetic-header">
+            <h1 class="glitch-text">автостопом по фазе сна</h1>
+            <p class="sub-quote">«...в руке бутылка пива»</p>
+        </header>
+
+        <!-- УНИВЕРСАЛЬНАЯ ГАЛЕРЕЯ КАРТОЧЕК -->
+        <section class="gallery-container">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <!-- Карточка 1 -->
+                    <div class="swiper-slide">
+                        <div class="polaroid-card">
+                            <div class="photo-wrapper">
+                                <img src="photo1.jpg" alt="Рыжие волосы, веснушки">
+                            </div>
+                            <div class="polaroid-caption">melancholy.jpg</div>
+                        </div>
+                    </div>
+                    <!-- Карточка 2 -->
+                    <div class="swiper-slide">
+                        <div class="polaroid-card">
+                            <div class="photo-wrapper">
+                                <img src="photo2.jpg" alt="Селфи в очках">
+                            </div>
+                            <div class="polaroid-caption">lo-fi_mood.jpg</div>
+                        </div>
+                    </div>
+                    <!-- Карточка 3 -->
+                    <div class="swiper-slide">
+                        <div class="polaroid-card">
+                            <div class="photo-wrapper">
+                                <img src="photo3.jpg" alt="Вид со спины на природу">
+                            </div>
+                            <div class="polaroid-caption">escapism.jpg</div>
+                        </div>
+                    </div>
+                    <!-- Карточка 4 -->
+                    <div class="swiper-slide">
+                        <div class="polaroid-card">
+                            <div class="photo-wrapper">
+                                <img src="photo4.jpg" alt="Взгляд в капюшоне">
+                            </div>
+                            <div class="polaroid-caption">залипаю.jpg</div>
+                        </div>
+                    </div>
+                    <!-- Карточка 5 -->
+                    <div class="swiper-slide">
+                        <div class="polaroid-card">
+                            <div class="photo-wrapper">
+                                <img src="photo5.jpg" alt="Вспышка у забора">
+                            </div>
+                            <div class="polaroid-caption">underground.jpg</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ПИВНОЙ БАР С КНОПКОЙ -->
+        <section class="beer-bar-section">
+            <div class="beer-counter-card">
+                <span class="counter-label">ВЫПИТО ПИВА ВМЕСТЕ:</span>
+                <div class="counter-value"><span id="beer-count">0</span> л</div>
+                <button class="add-beer-btn" id="pour-beer-btn">➕ Сделать глоток</button>
+            </div>
+        </section>
+
+        <!-- ЭКРАН "ЗАЛИПАНИЯ" (Гаснет на ПК и телефонах) -->
+        <div id="idle-screen" class="idle-overlay hidden-fade">
+            <div class="idle-content">
+                <p class="idle-text-line">Я залипаю в потолок...</p>
+                <p class="idle-subtext">пошевели мышкой или коснись экрана</p>
+            </div>
+        </div>
+
+        <!-- КАССЕТНЫЙ ПЛЕЕР -->
+        <footer class="player-footer">
+            <div class="cassette-container" id="player-toggle">
+                <audio id="bg-music" src="music.mp3" loop prefetch></audio>
+                <audio id="beer-sound" src="beer_open.mp3"></audio>
+
+                <div class="cassette-deck">
+                    <div class="cassette-window">
+                        <div class="tape-wheel left-wheel paused">
+                            <div class="wheel-lines"></div>
+                        </div>
+                        <div class="tape-reel"></div>
+                        <div class="tape-wheel right-wheel paused">
+                            <div class="wheel-lines"></div>
+                        </div>
+                    </div>
+                    <div class="cassette-label">
+                        <span class="label-artist">АПФС</span>
+                        <span class="label-track">Залипаю (A-Side)</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Скрипты -->
+    <script src="https://jsdelivr.net"></script>
+    <script src="script.js"></script>
+</body>
+</html>
