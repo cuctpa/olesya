@@ -1,14 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Инициализация Swiper-карт
-    const swiper = new Swiper(".mySwiper", {
-        effect: "cards",
-        grabCursor: true,
-        perSlideRotate: 8,
-        perSlideOffset: 12,
-        loop: true,
-    });
-
     // Поиск элементов интерфейса
     const introScreen = document.getElementById('intro-screen');
     const mainContent = document.getElementById('main-content');
@@ -102,14 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
             source.connect(lowpassFilter);
             lowpassFilter.connect(audioCtx.destination);
         } catch(err) {
-            console.log("Web Audio API недоступно", err);
+            console.log("Локальный запуск или Web Audio контекст ограничен браузером", err);
         }
     }
 
     // Сброс таймера бездействия
     function resetIdleTimer() {
         if (idleScreen.classList.contains('active-idle')) {
-            if (lowpassFilter && audioCtx) {
+            if (lowpassFilter && audioCtx && audioCtx.state !== 'suspended') {
                 // Плавно возвращаем высокие частоты звука за 0.4 секунды
                 lowpassFilter.frequency.exponentialRampToValueAtTime(20000, audioCtx.currentTime + 0.4);
             }
@@ -126,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function activateIdleMode() {
         idleScreen.classList.add('active-idle');
-        if (lowpassFilter && audioCtx) {
+        if (lowpassFilter && audioCtx && audioCtx.state !== 'suspended') {
             // Глушим звук до 450 Гц за 1.5 секунды (эффект музыки за стеной)
             lowpassFilter.frequency.exponentialRampToValueAtTime(450, audioCtx.currentTime + 1.5);
         }
