@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const beerCountEl = document.getElementById('beer-count');
     const idleScreen = document.getElementById('idle-screen');
     const lyricsLine = document.getElementById('lyrics-line');
-    const rainContainer = document.getElementById('heart-rain-container'); // Контейнер сердец
+    const rainContainer = document.getElementById('heart-rain-container');
 
     let idleTimer;
     let beerLiters = 0;
@@ -57,34 +57,29 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { tvNoise.classList.remove('glitch-flash'); }, duration);
     }
 
-    // ГЕНЕРАЦИЯ ПАДАЮЩИХ СЕРДЕЧЕК (Романтический дождь)
     function createFallingHeart() {
         const heart = document.createElement('div');
         heart.classList.add('falling-heart');
-        
-        // Рандомный выбор формы сердца (целое или разбитое)
         const heartTypes = ['🖤', '💔', '❤️'];
         heart.textContent = heartTypes[Math.floor(Math.random() * heartTypes.length)];
         
         heart.style.left = Math.random() * 100 + 'vw';
-        const size = Math.random() * 12 + 14; // Размер от 14px до 26px
+        const size = Math.random() * 12 + 14;
         heart.style.fontSize = size + 'px';
-        heart.style.animationDuration = Math.random() * 2.0 + 2.0 + 's'; // Время падения
+        heart.style.animationDuration = Math.random() * 2.0 + 2.0 + 's';
 
         rainContainer.appendChild(heart);
         setTimeout(() => { heart.remove(); }, 4000);
     }
 
-    // 3D-Переворот карточек по клику/тапу
     const flipCards = document.querySelectorAll('.flip-card');
     flipCards.forEach(card => {
-        card.addEventListener('click', (e) => {
-            triggerGlitchFlash(80); // Легкий щелчок помех при клике на фото
+        card.addEventListener('click', () => {
+            triggerGlitchFlash(80);
             card.classList.toggle('is-flipped');
         });
     });
 
-    // Клик по крышке
     capBtn.addEventListener('click', () => {
         try { beerSound.play().catch(() => {}); } catch(err) {}
         triggerGlitchFlash(400);
@@ -114,19 +109,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Кнопка глотка (Романтический интерактив)
     pourBeerBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         beerLiters += 0.5;
         beerCountEl.textContent = beerLiters.toFixed(1);
         triggerGlitchFlash(150);
         
-        // Спавним дождь из 4 сердечек при каждом глотке!
         for(let i=0; i<4; i++) {
             setTimeout(createFallingHeart, i * 150);
         }
 
-        // Если выпито больше 5.0 литров — включаем пьяное покачивание
         if (beerLiters >= 5.0) {
             document.body.classList.add('drunk-mode');
         }
@@ -161,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // ПАСХАЛКА ДЛЯ ДЕВУШКИ: Если включен Drunk-mode, жестко меняем ключевую строчку на любовное признание
         if (document.body.classList.contains('drunk-mode') && currentText.includes("Я блевал на полу")) {
             currentText = "Я блевал на полу, не от пойла, но... Ты по-прежнему бро мой. Я люблю тебя! 🖤";
         }
@@ -173,7 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 lyricsLine.textContent = currentText;
                 
-                // Подсвечиваем красным цветом каноничную фразу / признание
                 if (currentText.includes("Я блевал на полу")) {
                     lyricsLine.classList.add('highlight-lyrics');
                 } else {
