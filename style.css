@@ -1,3 +1,4 @@
+/* ОБЩИЕ НАСТРОЙКИ */
 * {
     margin: 0;
     padding: 0;
@@ -24,6 +25,7 @@ html, body {
 
 .hidden { display: none !important; }
 
+/* ТВ-ПОМЕХИ НА ФОНЕ */
 .tv-noise {
     position: fixed;
     top: -50%; left: -50%; right: -50%; bottom: -50%;
@@ -36,6 +38,7 @@ html, body {
 }
 .tv-noise.glitch-flash { opacity: 0.22; }
 
+/* ЭКРАН БЛОКИРОВКИ */
 #intro-screen {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -84,6 +87,7 @@ html, body {
     50% { opacity: 1; }
 }
 
+/* ХЕДЕР ТЕКСТ */
 .aesthetic-header {
     text-align: center;
     margin-bottom: 20px;
@@ -101,6 +105,7 @@ html, body {
     font-style: italic;
 }
 
+/* АВТОНОМНАЯ ГАЛЕРЕЯ (ЛЕНТА С ФИКСАЦИЕЙ) */
 .gallery-container {
     width: 100%;
     display: flex;
@@ -159,6 +164,7 @@ html, body {
     letter-spacing: 1px;
 }
 
+/* ПИВНОЙ БАР */
 .beer-bar-section {
     width: 100%;
     max-width: 350px;
@@ -198,6 +204,7 @@ html, body {
 .add-beer-btn:hover { background: rgba(255, 191, 0, 0.05); }
 .add-beer-btn:active { transform: scale(0.95); }
 
+/* ЗАСТАВКА ЗАЛИПАНИЯ */
 .idle-overlay {
     position: fixed;
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -209,25 +216,37 @@ html, body {
     pointer-events: none;
     opacity: 0;
     transition: opacity 1.2s ease;
+    padding: 20px;
 }
 .idle-overlay.active-idle {
     opacity: 0.98;
     pointer-events: auto;
 }
+.idle-content {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+}
 .idle-text-line {
     color: #FFBF00;
-    font-size: 20px;
-    letter-spacing: 3px;
-    margin-bottom: 12px;
-    animation: floatText 3s infinite ease-in-out;
+    font-size: 22px;
+    line-height: 1.5;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    min-height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.idle-subtext { color: #3c3c3c; font-size: 11px; }
-
-@keyframes floatText {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+.idle-subtext { 
+    color: #3c3c3c; 
+    font-size: 11px; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
+/* КАССЕТНЫЙ ПЛЕЕР */
 .player-footer {
     position: fixed;
     bottom: 0; left: 0; width: 100%;
@@ -295,13 +314,9 @@ html, body {
         max-width: 100%;
         padding: 10px 15px;
     }
-    .scroll-slide {
-        flex: 0 0 265px;
-    }
-    .photo-wrapper {
-        height: 285px;
-    }
+    .scroll-slide { flex: 0 0 265px; }
+    .photo-wrapper { height: 285px; }
     .glitch-text { font-size: 17px; }
-    .idle-text-line { font-size: 16px; }
+    .idle-text-line { font-size: 16px; min-height: 48px; }
     .counter-value { font-size: 26px; }
 }
