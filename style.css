@@ -1,320 +1,127 @@
 /* ОБЩИЕ НАСТРОЙКИ */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0; padding: 0; box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
 }
 
 html, body {
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    background-color: #0d0d0d;
-    color: #e2e2e2;
+    width: 100%; height: 100%; overflow-x: hidden;
+    background-color: #0d0d0d; color: #e2e2e2;
     font-family: 'Courier New', Courier, monospace;
 }
 
-.main-layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    padding: 30px 20px 160px 20px;
-    position: relative;
+/* ЭФФЕКТ ПЬЯНОГО ВЕРТОЛЕТА */
+body.drunk-mode { animation: dizzy 6s infinite ease-in-out; }
+@keyframes dizzy {
+    0%, 100% { transform: rotate(0deg) scale(1); filter: blur(0px); }
+    33% { transform: rotate(0.8deg) scale(1.01); filter: blur(0.3px); }
+    66% { transform: rotate(-0.8deg) scale(0.99); filter: blur(0.5px); }
 }
 
+/* ПАДАЮЩИЕ РОМАНТИЧНЫЕ СЕРДЕЧКИ */
+#heart-rain-container {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none; z-index: 9998; overflow: hidden;
+}
+.falling-heart {
+    position: absolute; color: #FFBF00; font-size: 20px;
+    opacity: 0.8; font-family: sans-serif;
+    animation: fallDown linear forwards;
+}
+@keyframes fallDown {
+    0% { transform: translateY(-30px) scale(0.5) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(105vh) scale(1.2) rotate(180deg); opacity: 0; }
+}
+
+/* ВИНИЕКТА */
+.vignette {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, transparent 45%, rgba(0,0,0,0.75) 100%);
+    pointer-events: none; z-index: 9990;
+}
+
+.main-layout {
+    display: flex; flex-direction: column; min-height: 100vh;
+    padding: 30px 20px 160px 20px; position: relative;
+}
 .hidden { display: none !important; }
 
-/* ТВ-ПОМЕХИ НА ФОНЕ */
 .tv-noise {
-    position: fixed;
-    top: -50%; left: -50%; right: -50%; bottom: -50%;
+    position: fixed; top: -50%; left: -50%; right: -50%; bottom: -50%;
     width: 200%; height: 200%;
     background: url('https://giphy.com');
-    opacity: 0.03;
-    pointer-events: none;
-    z-index: 9999;
+    opacity: 0.03; pointer-events: none; z-index: 9999;
     transition: opacity 0.15s ease;
 }
 .tv-noise.glitch-flash { opacity: 0.22; }
 
-/* ЭКРАН БЛОКИРОВКИ */
-#intro-screen {
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background: #0a0a0a;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    transition: opacity 0.6s ease;
-}
+.aesthetic-header { text-align: center; margin-bottom: 20px; }
+.glitch-text { font-size: 22px; text-transform: lowercase; letter-spacing: 0.5px; color: #8c8c8c; margin-bottom: 6px; position: relative; }
+.sub-quote { font-size: 12px; color: #FFBF00; font-style: italic; }
 
-.beer-cap-trigger {
-    width: 120px; height: 120px;
-    background: #FFBF00;
-    border-radius: 50%;
-    position: relative;
-    margin: 0 auto 25px auto;
-    box-shadow: 0 0 30px rgba(255, 191, 0, 0.4);
-    cursor: pointer;
-    transition: transform 0.1s ease;
-}
-.beer-cap-trigger:active { transform: scale(0.92); }
-
-.cap-ridges {
-    position: absolute;
-    top: -4px; left: -4px; right: -4px; bottom: -4px;
-    border-radius: 50%;
-    border: 4px dashed #cc9900;
-}
-.cap-core {
-    position: absolute;
-    top: 12px; left: 12px; right: 12px; bottom: 12px;
-    border-radius: 50%;
-    border: 2px inset rgba(255, 255, 255, 0.3);
-}
-
-.tap-instruction {
-    color: #FFBF00;
-    font-size: 13px;
-    letter-spacing: 3px;
-    font-weight: bold;
-    animation: pulseText 2s infinite ease-in-out;
-}
-@keyframes pulseText {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-}
-
-/* ХЕДЕР ТЕКСТ */
-.aesthetic-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-.glitch-text {
-    font-size: 22px;
-    text-transform: lowercase;
-    letter-spacing: 0.5px;
-    color: #8c8c8c;
-    margin-bottom: 6px;
-}
-.sub-quote {
-    font-size: 12px;
-    color: #FFBF00;
-    font-style: italic;
-}
-
-/* АВТОНОМНАЯ ГАЛЕРЕЯ (ЛЕНТА С ФИКСАЦИЕЙ) */
-.gallery-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-    margin-bottom: 35px;
-}
-
-.custom-scroll-gallery {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    width: 100%;
-    max-width: 360px;
-    padding: 15px 25px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-}
+/* 3D FLIP ЭФФЕКТ ДЛЯ ГАЛЕРЕИ */
+.gallery-container { width: 100%; display: flex; justify-content: center; align-items: center; flex-grow: 1; margin-bottom: 35px; }
+.custom-scroll-gallery { display: flex; gap: 25px; overflow-x: auto; width: 100%; max-width: 370px; padding: 15px 25px; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .custom-scroll-gallery::-webkit-scrollbar { display: none; }
 
-.scroll-slide {
-    flex: 0 0 310px;
-    scroll-snap-align: center;
+.scroll-slide { flex: 0 0 310px; scroll-snap-align: center; perspective: 1000px; /* Важно для 3D */ }
+.flip-card { width: 100%; height: 450px; cursor: pointer; }
+.flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
+
+/* Класс, который JS вешает при клике */
+.flip-card.is-flipped .flip-card-inner { transform: rotateY(180deg); }
+
+.flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 4px; }
+.flip-card-front { background: transparent; }
+
+/* Обратная сторона карты с письмом */
+.flip-card-back {
+    background: #141414; color: #FFBF00; transform: rotateY(180deg);
+    border: 1px solid #222; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    display: flex; align-items: center; justify-content: center;
+    padding: 30px; font-family: 'Courier New', Courier, monospace;
+    font-size: 14px; line-height: 1.6; text-align: center;
 }
 
-.polaroid-card {
-    background: #141414;
-    padding: 15px 15px 30px 15px;
-    border: 1px solid #222;
-    border-radius: 4px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
-    width: 100%; height: 100%;
-    display: flex;
-    flex-direction: column;
-}
+.polaroid-card { background: #141414; padding: 15px 15px 30px 15px; border: 1px solid #222; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7); width: 100%; height: 100%; display: flex; flex-direction: column; }
+.photo-wrapper { width: 100%; height: 330px; background: #090909; overflow: hidden; border-radius: 2px; }
+.photo-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(10%) contrast(102%); }
+.polaroid-caption { margin-top: 15px; font-size: 13px; color: #5c5c5c; text-align: center; letter-spacing: 1px; }
 
-.photo-wrapper {
-    width: 100%;
-    height: 330px;
-    background: #090909;
-    overflow: hidden;
-    border-radius: 2px;
-}
-.photo-wrapper img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    filter: grayscale(10%) contrast(102%);
-}
-
-.polaroid-caption {
-    margin-top: 15px;
-    font-size: 13px;
-    color: #5c5c5c;
-    text-align: center;
-    letter-spacing: 1px;
-}
-
-/* ПИВНОЙ БАР */
-.beer-bar-section {
-    width: 100%;
-    max-width: 350px;
-    margin: 0 auto;
-}
-.beer-counter-card {
-    background: #111;
-    border: 1px dashed #2c2c2c;
-    padding: 20px;
-    text-align: center;
-    border-radius: 4px;
-}
-.counter-label {
-    font-size: 11px;
-    color: #666;
-    display: block;
-    margin-bottom: 6px;
-}
-.counter-value {
-    font-size: 32px;
-    font-weight: bold;
-    color: #FFBF00;
-    margin-bottom: 15px;
-    transition: transform 0.1s ease;
-}
-.add-beer-btn {
-    background: transparent;
-    border: 1px solid #FFBF00;
-    color: #FFBF00;
-    font-family: inherit;
-    font-size: 12px;
-    padding: 10px 22px;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
+/* БАР */
+.beer-bar-section { width: 100%; max-width: 350px; margin: 0 auto; }
+.beer-counter-card { background: #111; border: 1px dashed #2c2c2c; padding: 20px; text-align: center; border-radius: 4px; }
+.counter-label { font-size: 11px; color: #666; display: block; margin-bottom: 6px; }
+.counter-value { font-size: 32px; font-weight: bold; color: #FFBF00; margin-bottom: 15px; transition: transform 0.1s ease; }
+.add-beer-btn { background: transparent; border: 1px solid #FFBF00; color: #FFBF00; font-family: inherit; font-size: 12px; padding: 10px 22px; border-radius: 25px; cursor: pointer; transition: all 0.2s ease; }
 .add-beer-btn:hover { background: rgba(255, 191, 0, 0.05); }
 .add-beer-btn:active { transform: scale(0.95); }
 
-/* ЗАСТАВКА ЗАЛИПАНИЯ */
-.idle-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background: #060606;
-    z-index: 1500;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 1.2s ease;
-    padding: 20px;
-}
-.idle-overlay.active-idle {
-    opacity: 0.98;
-    pointer-events: auto;
-}
-.idle-content {
-    text-align: center;
-    width: 100%;
-    max-width: 600px;
-}
-.idle-text-line {
-    color: #FFBF00;
-    font-size: 22px;
-    line-height: 1.5;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    min-height: 66px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.idle-subtext { 
-    color: #3c3c3c; 
-    font-size: 11px; 
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
+/* ЗАЛИПАНИЕ */
+.idle-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #060606; z-index: 1500; display: flex; justify-content: center; align-items: center; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; padding: 20px; }
+.idle-overlay.active-idle { opacity: 0.98; pointer-events: auto; }
+.idle-content { width: 100%; max-width: 600px; text-align: center; }
+.idle-text-line { color: #FFBF00; font-size: 22px; line-height: 1.5; letter-spacing: 2px; margin-bottom: 20px; transition: opacity 0.3s ease, transform 0.3s ease; min-height: 66px; display: flex; align-items: center; justify-content: center; }
+.idle-text-line.highlight-lyrics { color: #ff2a2a; text-shadow: 0 0 10px rgba(255, 42, 42, 0.4); font-weight: bold; }
+.idle-subtext { color: #3c3c3c; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
 
-/* КАССЕТНЫЙ ПЛЕЕР */
-.player-footer {
-    position: fixed;
-    bottom: 0; left: 0; width: 100%;
-    background: linear-gradient(to top, #090909 85%, transparent);
-    padding: 25px 20px;
-    z-index: 900;
-}
-.cassette-container {
-    width: 100%;
-    max-width: 360px;
-    margin: 0 auto;
-}
-.cassette-deck {
-    background: #161616;
-    border: 2px solid #222;
-    border-radius: 6px;
-    padding: 14px;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
-    cursor: pointer;
-}
-.cassette-window {
-    width: 65%; height: 42px;
-    background: #070707;
-    margin: 0 auto 12px auto;
-    border-radius: 4px;
-    border: 1px dashed #2a2a2a;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-.tape-wheel {
-    width: 26px; height: 26px;
-    border: 4px dotted #3a3a3a;
-    border-radius: 50%;
-    position: relative;
-    animation: rotateWheel 3.5s linear infinite;
-}
-.wheel-lines {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 100%; height: 2px;
-    background: #444;
-    transform: translate(-50%, -50%);
-}
+.player-footer { position: fixed; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, #090909 85%, transparent); padding: 25px 20px; z-index: 900; }
+.cassette-container { width: 100%; max-width: 360px; margin: 0 auto; }
+.cassette-deck { background: #161616; border: 2px solid #222; border-radius: 6px; padding: 14px; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8); cursor: pointer; }
+.cassette-window { width: 65%; height: 42px; background: #070707; margin: 0 auto 12px auto; border-radius: 4px; border: 1px dashed #2a2a2a; display: flex; justify-content: space-around; align-items: center; }
+.tape-wheel { width: 26px; height: 26px; border: 4px dotted #3a3a3a; border-radius: 50%; position: relative; animation: rotateWheel 3.5s linear infinite; }
+.wheel-lines { position: absolute; top: 50%; left: 50%; width: 100%; height: 2px; background: #444; transform: translate(-50%, -50%); }
 .tape-wheel.paused { animation-play-state: paused !important; }
 
-@keyframes rotateWheel {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.cassette-label {
-    display: flex;
-    justify-content: space-between;
-    background: #1f1f1f;
-    border-left: 4px solid #FFBF00;
-    padding: 5px 10px;
-    border-radius: 2px;
-}
+@keyframes rotateWheel { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.cassette-label { display: flex; justify-content: space-between; background: #1f1f1f; border-left: 4px solid #FFBF00; padding: 5px 10px; border-radius: 2px; }
 .label-artist { font-size: 12px; font-weight: bold; color: #999; }
 .label-track { font-size: 11px; color: #555; }
 
 @media (max-width: 480px) {
-    .custom-scroll-gallery {
-        max-width: 100%;
-        padding: 10px 15px;
-    }
+    .custom-scroll-gallery { max-width: 100%; padding: 10px 15px; }
     .scroll-slide { flex: 0 0 265px; }
+    .flip-card { height: 385px; }
     .photo-wrapper { height: 285px; }
     .glitch-text { font-size: 17px; }
     .idle-text-line { font-size: 16px; min-height: 48px; }
