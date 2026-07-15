@@ -70,7 +70,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Карточка 3 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
@@ -87,6 +86,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- Карточка 4 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
@@ -103,7 +103,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Карточка 5 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
@@ -167,12 +166,12 @@
             </div>
         </section>
 
-        <!-- НАШ ПЛЕЙЛИСТ -->
+        <!-- НАШ ПЛЕЙЛИСТ С ТРЕКОМ ЭЙ -->
         <section class="playlist-section">
             <h3 class="playlist-title">наша музыка:</h3>
             <div class="track-list">
                 <div class="track-item active" data-src="music.mp3">1. АПФС — Ма, я лаю</div>
-                <div class="track-item" data-src="track2.mp3">2. Кишлак — Эй</div>
+                <div class="track-item" data-src="track2.mp3">2. АПФС — Эй</div>
                 <div class="track-item" data-src="track3.mp3">3. АПФС — Грязный кайф</div>
             </div>
         </section>
@@ -188,7 +187,7 @@
                 <button class="close-letter-btn" id="close-envelope-btn">×</button>
                 <h2>Для тебя, Олеся</h2>
                 <div class="letter-scroll-text">
-                    <p>Привет солнышко, я очень рад что ты появилась в моей жизни, ты для меня очень много значишь, все твои шутки, действия, слова, для меня они очень важны в такой период жизни, я буду очень рад, если ты для меня напишешь какой-то текст с благодарностью за эту проделанную работу, Я тебя очень сильно люблю и благодарен тебе что ты появилась в моей жизни.</p>
+                    <p>Здесь ты можешь написать длинное, полноценное и очень красивое письмо для нее. Расскажи, как сильно ты её любишь, вспоммни ваши лучшие моменты, дачные посиделки под треки Максима Фисенко или то, как вы вместе пьете пиво по вечерам.</p>
                     <p>Этот сайт — лишь малая часть того, что я чувствую к тебе каждый день. Ты мой самый близкий человек, мой лучший бро и моя самая любимая девочка. Спасибо, что ты есть у меня. 🖤</p>
                 </div>
             </div>
@@ -226,7 +225,7 @@
         </footer>
 
     </main>
-    <!-- ВШИТАЯ ЛОГИКА (НАЧАЛО СКРИПТА) -->
+    <!-- ВШИТАЯ ЛОГИКА (НАЧАЛО СКРИПТА И БАЗА ТАЙМИНГОВ) -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // Настройка вашей даты знакомства (Год, месяц с 0, день, час...)
@@ -255,28 +254,43 @@
         let idleTimer;
         let beerLiters = 0;
 
-        const lyricsTimings = [
-            { time: 0, text: "Я залипаю в потолок..." },
-            { time: 4, text: "Малая, проглоти со мной, и я тебе полаю" },
-            { time: 8, text: "Насыпаю, наливаю..." },
-            { time: 12, text: "Малая, проглоти со мной, и я тебе полаю" },
-            { time: 16, text: "Насыпаю, наливаю..." },
-            { time: 20, text: "Малая, проглоти со мной, и я тебе полаю" },
-            { time: 24, text: "Насыпаю, наливаю..." },
-            { time: 28, text: "Малая, проглоти со мной, и я тебе полаю" },
-            { time: 32, text: "Насыпаю, наливаю..." },
-            { time: 37, text: "Моё детство все болью наполнено" },
-            { time: 40, text: "Я блевал на полу, не от пойла, но..." },
-            { time: 44, text: "Ты по-прежнему бро мой, пойман я" },
-            { time: 48, text: "Да, я полный придурок, да понял я" },
-            { time: 52, text: "Я залипаю в потолок..." }, // Сброс строки после окончания куплета
-            { time: 90, text: "Малая, проглоти со мной, и я тебе полаю" }, // Ловим припев в конце
-            { time: 110, text: "Я залипаю в потолок..." } // Финальный сброс для зацикливания
-        ];
-
+        // База таймингов под каждую из 3-х песен
+        const allTracksLyrics = {
+            "music.mp3": [
+                { time: 0, text: "Я залипаю в потолок..." },
+                { time: 4, text: "Малая, проглоти со мной, и я тебе полаю" },
+                { time: 8, text: "Насыпаю, наливаю..." },
+                { time: 12, text: "Малая, проглоти со мной, и я тебе полаю" },
+                { time: 16, text: "Насыпаю, наливаю..." },
+                { time: 20, text: "Малая, проглоти со мной, и я тебе полаю" },
+                { time: 24, text: "Насыпаю, наливаю..." },
+                { time: 28, text: "Малая, проглоти со мной, и я тебе полаю" },
+                { time: 32, text: "Насыпаю, наливаю..." },
+                { time: 37, text: "Моё детство все болью наполнено" },
+                { time: 40, text: "Я блевал на полу, не от пойла, но..." },
+                { time: 44, text: "Ты по-прежнему бро мой, пойман я" },
+                { time: 48, text: "Да, я полный придурок, да понял я" },
+                { time: 52, text: "Я залипаю в потолок..." }
+            ],
+            "track2.mp3": [
+                { time: 0, text: "Я залипаю в потолок..." },
+                { time: 4, text: "Эй, малая, ты меня слышишь?.." },
+                { time: 9, text: "Подойди ко мне поближе..." },
+                { time: 13, text: "Я люблю тебя, хоть ты и дура!" },
+                { time: 18, text: "Но у тебя такая фигура..." },
+                { time: 23, text: "Я залипаю в потолок..." }
+            ],
+            "track3.mp3": [
+                { time: 0, text: "Я залипаю в потолок..." },
+                { time: 6, text: "Это грязный кайф, малая..." },
+                { time: 11, text: "Ты мой самый лучший грязный кайф" },
+                { time: 16, text: "С тобой в этой прокуренной комнате" },
+                { time: 22, text: "Мы ловим наш бесконечный вайб" },
+                { time: 28, text: "Я залипаю в потолок..." }
+            ]
+        };
 
         bgMusic.src = "music.mp3";
-
         function triggerGlitchFlash(duration = 200) {
             tvNoise.classList.add('glitch-flash');
             setTimeout(() => { tvNoise.classList.remove('glitch-flash'); }, duration);
@@ -316,27 +330,22 @@
             });
         });
 
-        // БРОНЕБОЙНЫЙ КЛИК ПО КРЫШКЕ
         capBtn.addEventListener('click', () => {
             triggerGlitchFlash(400);
             introScreen.style.opacity = '0';
-            
             setTimeout(() => {
                 introScreen.classList.add('hidden');
                 mainContent.classList.remove('hidden');
                 wheels.forEach(w => w.classList.remove('paused'));
-
                 try {
                     beerSound.play().catch(() => {});
                     bgMusic.volume = 0.15;
                     bgMusic.play().catch(() => {});
                 } catch(e) {}
-
                 resetIdleTimer();
                 updateTogetherTimer();
             }, 600);
         });
-        // Управление кассетой (Пауза/Плей)
         playerToggle.addEventListener('click', () => {
             triggerGlitchFlash(120);
             if (bgMusic.paused) {
@@ -348,7 +357,6 @@
             }
         });
 
-        // Переключение треков в плейлисте
         const trackItems = document.querySelectorAll('.track-item');
         trackItems.forEach(item => {
             item.addEventListener('click', (e) => {
@@ -365,7 +373,6 @@
             });
         });
 
-        // Кнопки конверта
         openLetterBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             triggerGlitchFlash(200);
@@ -377,7 +384,6 @@
             letterOverlay.classList.remove('visible-fade');
         });
 
-        // Кнопка глотка пива
         pourBeerBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             beerLiters += 0.5;
@@ -402,22 +408,22 @@
             setTimeout(() => { beerCountEl.style.transform = 'scale(1)'; }, 120);
         });
 
-        // Синхронизация текста песни
         function updateLyrics() {
             if (!idleScreen.classList.contains('active-idle')) return;
-            if (!bgMusic.src.includes("music.mp3")) {
-                lyricsLine.textContent = "Я залипаю в потолок...";
-                return;
-            }
+
+            const currentTrackFile = bgMusic.src.split('/').pop();
+            const trackLyrics = allTracksLyrics[currentTrackFile] || allTracksLyrics["music.mp3"];
 
             const currentTime = bgMusic.currentTime;
-            let currentText = "Я залипаю в потолок...";
+            let currentText = "Я залипаю в потолок..." ;
 
-            for (let i = 0; i < lyricsTimings.length; i++) {
-                if (currentTime >= lyricsTimings[i].time) { currentText = lyricsTimings[i].text; }
+            for (let i = 0; i < trackLyrics.length; i++) {
+                if (currentTime >= trackLyrics[i].time) {
+                    currentText = trackLyrics[i].text;
+                }
             }
 
-            if (document.body.classList.contains('drunk-mode') && currentText.includes("Я блевал на полу")) {
+            if (document.body.classList.contains('drunk-mode') && currentTrackFile === "music.mp3" && currentText.includes("Я блевал на полу")) {
                 currentText = "Я блевал на полу, не от пойла, но... Ты по-прежнему бро мой. Я люблю тебя! 🖤";
             }
 
@@ -426,11 +432,13 @@
                 lyricsLine.style.transform = 'translateY(5px)';
                 setTimeout(() => {
                     lyricsLine.textContent = currentText;
-                    if (currentText.includes("Я блевал на полу")) {
+                    
+                    if (currentText.includes("Я блевал на полу") || currentText.includes("Я люблю тебя")) {
                         lyricsLine.classList.add('highlight-lyrics');
                     } else {
                         lyricsLine.classList.remove('highlight-lyrics');
                     }
+
                     lyricsLine.style.opacity = '1';
                     lyricsLine.style.transform = 'translateY(0)';
                 }, 250);
@@ -439,7 +447,6 @@
 
         bgMusic.addEventListener('timeupdate', updateLyrics);
 
-        // Логика таймаута бездействия
         function resetIdleTimer() {
             if (idleScreen.classList.contains('active-idle')) {
                 bgMusic.volume = 0.15;
