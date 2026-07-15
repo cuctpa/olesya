@@ -17,7 +17,6 @@ html, body {
     font-family: 'Courier New', Courier, monospace;
 }
 
-/* Эффект пьяного покачивания (Включается через JS на 5 литрах) */
 body.drunk-mode {
     animation: dizzy 6s infinite ease-in-out;
 }
@@ -56,7 +55,6 @@ body.drunk-mode {
     100% { transform: translateY(105vh) scale(1.2) rotate(180deg); opacity: 0; }
 }
 
-/* Виньетка (мягкое затемнение краев экрана) */
 .vignette {
     position: fixed;
     top: 0;
@@ -160,7 +158,7 @@ body.drunk-mode {
 }
 
 /* ==========================================================================
-   4. ДЕКОРАТИВНЫЙ ХЕДЕР И ГЛИТЧ-ТЕКСТ
+   4. ДЕКОРАТИВНЫЙ ХЕДЕР И СЧЕТЧИК ЛЮБВИ
    ========================================================================== */
 .aesthetic-header {
     text-align: center;
@@ -182,8 +180,16 @@ body.drunk-mode {
     font-style: italic;
 }
 
+.love-timer {
+    font-size: 11px;
+    color: #666;
+    letter-spacing: 1px;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
 /* ==========================================================================
-   5. АВТОНОМНАЯ СВИП-ГАЛЕРЕЯ (7 КАРТОЧЕК С 3D FLIP)
+   5. АВТОНОМНАЯ ГАЛЕРЕЯ КАРТОЧЕК С 3D FLIP
    ========================================================================== */
 .gallery-container {
     width: 100%;
@@ -246,7 +252,6 @@ body.drunk-mode {
     background: transparent;
 }
 
-/* Обратная сторона карты с письмом */
 .flip-card-back {
     background: #141414;
     color: #FFBF00;
@@ -307,12 +312,12 @@ body.drunk-mode {
 }
 
 /* ==========================================================================
-   6. ПИВНОЙ БАР С КВЕСТ-МАРКЕРОМ
+   6. ПИВНОЙ БАР, ПЛЕЙЛИСТ И КОНВЕРТ
    ========================================================================== */
 .beer-bar-section {
     width: 100%;
     max-width: 350px;
-    margin: 0 auto;
+    margin: 0 auto 30px auto;
 }
 
 .beer-counter-card {
@@ -365,94 +370,260 @@ body.drunk-mode {
     transition: all 0.2s ease;
 }
 
-.add-beer-btn:hover {
-    background: rgba(255, 191, 0, 0.05);
-}
+.add-beer-btn:hover { background: rgba(255, 191, 0, 0.05); }
+.add-beer-btn:active { transform: scale(0.95); }
 
-.add-beer-btn:active {
-    transform: scale(0.95);
-}
-
-/* ==========================================================================
-   7. РЕЖИМ СНА ("ЗАЛИПАНИЕ" С СИНХРОННЫМ ТЕКСТОМ)
-   ========================================================================== */
-.idle-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #060606;
-    z-index: 1500;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 1.2s ease;
-    padding: 20px;
-}
-
-.idle-overlay.active-idle {
-    opacity: 0.98;
-    pointer-events: auto;
-}
-
-.idle-content {
+.playlist-section {
     width: 100%;
-    max-width: 600px;
-    text-align: center;
+    max-width: 350px;
+    margin: 0 auto 30px auto;
+    background: #111;
+    border: 1px solid #222;
+    padding: 15px;
+    border-radius: 4px;
 }
 
-.idle-text-line {
-    color: #FFBF00;
-    font-size: 22px;
-    line-height: 1.5;
-    letter-spacing: 2px;
-    margin-bottom: 20px;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    min-height: 66px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.idle-text-line.highlight-lyrics {
-    color: #ff2a2a;
-    text-shadow: 0 0 10px rgba(255, 42, 42, 0.4);
-    font-weight: bold;
-}
-
-.idle-subtext {
-    color: #3c3c3c;
+.playlist-title {
     font-size: 11px;
+    color: #555;
     text-transform: uppercase;
+    margin-bottom: 10px;
     letter-spacing: 1px;
 }
 
-/* ==========================================================================
-   8. КАССЕТНЫЙ ПЛЕЕР
-   ========================================================================== */
-.player-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: linear-gradient(to top, #090909 85%, transparent);
-    padding: 25px 20px;
-    z-index: 900;
-}
-
-.cassette-container {
-    width: 100%;
-    max-width: 360px;
-    margin: 0 auto;
-}
-
-.cassette-deck {
-    background: #161616;
-    border: 2px solid #222;
-    border-radius: 6px;
-    padding: 14px;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+.track-item {
+    font-size: 12px;
+    color: #888;
+    padding: 6px 4px;
+    border-bottom: 1px solid #1a1a1a;
     cursor: pointer;
+    transition: color 0.2s;
+}
+
+.track-item:last-child { border: none; }
+.track-item.active { color: #FFBF00; font-weight: bold; border-left: 2px solid #FFBF00; padding-left: 8px; }
+
+.letter-trigger-zone { text-align: center; margin-bottom: 40px; }
+.open-letter-btn { background: transparent; border: 1px dashed #FFBF00; color: #FFBF00; font-family: inherit; font-size: 12px; padding: 12px 24px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+.open-letter-btn:active { background: rgba(255,191,0,0.1); }
+
+.letter-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(5,5,5,0.95);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
+
+.letter-paper {
+    background: #161616;
+    border: 1px solid #333;
+    width: 100%;
+    max-width: 450px;
+    max-height: 80vh;
+    padding: 30px 20px;
+    position: relative;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+}
+
+.letter-paper h2 { font-size: 18px; color: #FFBF00; margin-bottom: 20px; text-align: center; }
+.letter-scroll-text { overflow-y: auto; flex-grow: 1; font-size: 14px; line-height: 1.6; color: #ccc; text-align: justify; padding-right: 5px; }
+.letter-scroll-text p { margin-bottom: 15px; }
+.close-letter-btn { 
+    position: absolute; 
+    top: 10px; 
+    right: 15px; 
+    background: transparent; 
+    border: none; 
+    color: #666; 
+    font-size: 24px; 
+    cursor: pointer; 
+}
+
+/* ==========================================================================
+   7. РЕЖИМ СНА И КАССЕТНЫЙ ПЛЕЕР
+   ========================================================================== */
+.idle-overlay { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh; 
+    background: #060606; 
+    z-index: 1500; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    pointer-events: none; 
+    opacity: 0; 
+    transition: opacity 1.2s ease; 
+    padding: 20px; 
+}
+
+.idle-overlay.active-idle { 
+    opacity: 0.98; 
+    pointer-events: auto; 
+}
+
+.idle-content { 
+    width: 100%; 
+    max-width: 600px; 
+    text-align: center; 
+}
+
+.idle-text-line { 
+    color: #FFBF00; 
+    font-size: 22px; 
+    line-height: 1.5; 
+    letter-spacing: 2px; 
+    margin-bottom: 20px; 
+    transition: opacity 0.3s ease, transform 0.3s ease; 
+    min-height: 66px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.idle-text-line.highlight-lyrics { 
+    color: #ff2a2a; 
+    text-shadow: 0 0 10px rgba(255, 42, 42, 0.4); 
+    font-weight: bold; 
+}
+
+.idle-subtext { 
+    color: #3c3c3c; 
+    font-size: 11px; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+}
+
+.player-footer { 
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    background: linear-gradient(to top, #090909 85%, transparent); 
+    padding: 25px 20px; 
+    z-index: 900; 
+}
+
+.cassette-container { 
+    width: 100%; 
+    max-width: 360px; 
+    margin: 0 auto; 
+}
+
+.cassette-deck { 
+    background: #161616; 
+    border: 2px solid #222; 
+    border-radius: 6px; 
+    padding: 14px; 
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8); 
+    cursor: pointer; 
+}
+
+.cassette-window { 
+    width: 65%; 
+    height: 42px; 
+    background: #070707; 
+    margin: 0 auto 12px auto; 
+    border-radius: 4px; 
+    border: 1px dashed #2a2a2a; 
+    display: flex; 
+    justify-content: space-around; 
+    align-items: center; 
+}
+
+.tape-wheel { 
+    width: 26px; 
+    height: 26px; 
+    border: 4px dotted #3a3a3a; 
+    border-radius: 50%; 
+    position: relative; 
+    animation: rotateWheel 3.5s linear infinite; 
+}
+
+.wheel-lines { 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    width: 100%; 
+    height: 2px; 
+    background: #444; 
+    transform: translate(-50%, -50%); 
+}
+
+.tape-wheel.paused { 
+    animation-play-state: paused !important; 
+}
+
+@keyframes rotateWheel { 
+    0% { transform: rotate(0deg); } 
+    100% { transform: rotate(360deg); } 
+}
+
+.cassette-label { 
+    display: flex; 
+    justify-content: space-between; 
+    background: #1f1f1f; 
+    border-left: 4px solid #FFBF00; 
+    padding: 5px 10px; 
+    border-radius: 2px; 
+}
+
+.label-artist { 
+    font-size: 12px; 
+    font-weight: bold; 
+    color: #999; 
+}
+
+.label-track { 
+    font-size: 11px; 
+    color: #555; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+}
+
+.hidden-fade { 
+    opacity: 0; 
+    pointer-events: none; 
+    transition: opacity 0.5s ease; 
+}
+
+.visible-fade { 
+    opacity: 1 !important; 
+    pointer-events: auto !important; 
+}
+
+@media (max-width: 480px) {
+    .custom-scroll-gallery { 
+        max-width: 100%; 
+        padding: 10px 15px; 
+    }
+    .scroll-slide { 
+        flex: 0 0 265px; 
+    }
+    .flip-card { 
+        height: 385px; 
+    }
+    .photo-wrapper { 
+        height: 285px; 
+    }
+    .glitch-text { 
+        font-size: 17px; 
+    }
+    .idle-text-line { 
+        font-size: 16px; 
+        min-height: 48px; 
+    }
+    .counter-value { 
+        font-size: 26px; 
+    }
+}
