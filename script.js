@@ -1,5 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // ==========================================================================
+    // 📊 НАСТРОЙКА ДАТЫ ЗНАКОМСТВА (Впиши сюда вашу дату)
+    // ==========================================================================
+    // Формат: Год, месяц (начиная с 0: январь=0, май=4), день, часы, минуты...
+    const startDate = new Date(2025, 4, 15, 18, 0, 0); 
+
     const introScreen = document.getElementById('intro-screen');
     const mainContent = document.getElementById('main-content');
     const capBtn = document.getElementById('cap-btn');
@@ -14,10 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const idleScreen = document.getElementById('idle-screen');
     const lyricsLine = document.getElementById('lyrics-line');
     const rainContainer = document.getElementById('heart-rain-container');
+    const togetherTimerEl = document.getElementById('together-timer');
+    const playerTrackTitle = document.getElementById('player-track-title');
+    const openLetterBtn = document.getElementById('open-envelope-btn');
+    const closeLetterBtn = document.getElementById('close-envelope-btn');
+    const letterOverlay = document.getElementById('letter-overlay');
 
     let idleTimer;
     let beerLiters = 0;
     let audioCtx, source, lowpassFilter;
+    let isAudioCtxInitialized = false;
 
     const lyricsTimings = [
         { time: 0, text: "Я залипаю в потолок..." },
@@ -29,29 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
         { time: 24, text: "Насыпаю, наливаю..." },
         { time: 28, text: "Малая, проглоти со мной, и я тебе полаю" },
         { time: 32, text: "Насыпаю, наливаю..." },
-        // Куплет
         { time: 37, text: "Моё детство все болью наполнено" },
         { time: 40, text: "Я блевал на полу, не от пойла, но..." },
         { time: 44, text: "Ты по-прежнему бро мой, пойман я" },
-        { time: 48, text: "Да, я полный придурок, да понял я" },
-        { time: 51, text: "А давай будем мериться шрамами" },
-        { time: 55, text: "По лицу бытовыми ударами?" },
-        { time: 59, text: "Полицейские палят нас пьяными" },
-        { time: 62, text: "Подскажи, сколько суток не спали мы?" },
-        { time: 66, text: "Их харассит за то, что домой плывём" },
-        { time: 70, text: "Поднимите мне вымпелы, я вылил яд" },
-        { time: 73, text: "Я на даче, в гостях, organism иссяк" },
-        { time: 77, text: "Подкури об меня, не кури взатяг" },
-        { time: 81, text: "Их харассит за то, что мы плывём" },
-        { time: 84, text: "Поднимите мне вымпелы, я вылил яд" },
-        { time: 88, text: "Я на даче, в гостях, organism иссяк" },
-        { time: 91, text: "Подкури об меня, не кури взатяг..." },
-        // Припев повтор
-        { time: 95, text: "Малая, проглоти со мной, и я тебе полаю" },
-        { time: 99, text: "Насыпаю, наливаю..." },
-        { time: 103, text: "Малая, проглоти со мной, и я тебе полаю" },
-        { time: 107, text: "Насыпаю, наливаю..." }
+        { time: 48, text: "Да, я полный придурок, да понял я" }
     ];
+
+    bgMusic.src = "music.mp3";
 
     function triggerGlitchFlash(duration = 200) {
         tvNoise.classList.add('glitch-flash');
@@ -63,42 +59,52 @@ document.addEventListener('DOMContentLoaded', () => {
         heart.classList.add('falling-heart');
         const heartTypes = ['🖤', '💔', '❤️'];
         heart.textContent = heartTypes[Math.floor(Math.random() * heartTypes.length)];
-        
         heart.style.left = Math.random() * 100 + 'vw';
         const size = Math.random() * 12 + 14;
         heart.style.fontSize = size + 'px';
         heart.style.animationDuration = Math.random() * 2.0 + 2.0 + 's';
-
         rainContainer.appendChild(heart);
         setTimeout(() => { heart.remove(); }, 4000);
     }
+
+    function updateTogetherTimer() {
+        const now = new Date();
+        const diff = now - startDate;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+        togetherTimerEl.textContent = `мы вместе: ${days}д ${hours}ч ${minutes}м ${seconds}с`;
+    }
+    setInterval(updateTogetherTimer, 1000);
 
     const flipCards = document.querySelectorAll('.flip-card');
     flipCards.forEach(card => {
         card.addEventListener('click', () => {
             triggerGlitchFlash(80);
             card.classList.toggle('is-flipped');
-            
             const blinkHint = card.querySelector('.hint-blink');
-            if (blinkHint) { blinkHint.style.display = 'none'; }
+            if (blinkHint) blinkHint.style.display = 'none';
         });
     });
 
     capBtn.addEventListener('click', () => {
-        try { beerSound.play().catch(() => {}); } catch(err) {}
         triggerGlitchFlash(400);
         introScreen.style.opacity = '0';
         
         setTimeout(() => {
             introScreen.classList.add('hidden');
             mainContent.classList.remove('hidden');
+            wheels.forEach(w => w.classList.remove('paused'));
+
             try {
+                beerSound.play().catch(() => {});
                 bgMusic.volume = 0.15;
                 bgMusic.play().catch(() => {});
-            } catch(err) {}
-            wheels.forEach(w => w.classList.remove('paused'));
-            initAudioFilters();
+            } catch(e) {}
+
             resetIdleTimer();
+            updateTogetherTimer();
         }, 600);
     });
 
@@ -107,14 +113,48 @@ document.addEventListener('DOMContentLoaded', () => {
         if (bgMusic.paused) {
             bgMusic.play().catch(() => {});
             wheels.forEach(w => w.classList.remove('paused'));
+            if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
         } else {
             bgMusic.pause();
             wheels.forEach(w => w.classList.add('paused'));
         }
     });
 
+    const trackItems = document.querySelectorAll('.track-item');
+    trackItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
+            triggerGlitchFlash(150);
+            trackItems.forEach(t => t.classList.remove('active'));
+            item.classList.add('active');
+
+            bgMusic.src = item.getAttribute('data-src');
+            playerTrackTitle.textContent = item.textContent.replace(/^\d+\.\s*/, '') + " (A-Side)";
+            bgMusic.volume = 0.15;
+            bgMusic.play().catch(() => {});
+            wheels.forEach(w => w.classList.remove('paused'));
+        });
+    });
+
+    openLetterBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        triggerGlitchFlash(200);
+        letterOverlay.classList.add('visible-fade');
+    });
+
+    closeLetterBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        letterOverlay.classList.remove('visible-fade');
+    });
+
     pourBeerBtn.addEventListener('click', (e) => {
         e.stopPropagation();
+        
+        if (!isAudioCtxInitialized) {
+            initAudioFilters();
+            isAudioCtxInitialized = true;
+        }
+
         beerLiters += 0.5;
         beerCountEl.textContent = beerLiters.toFixed(1);
         triggerGlitchFlash(150);
@@ -143,23 +183,27 @@ document.addEventListener('DOMContentLoaded', () => {
             audioCtx = new AudioContext();
             source = audioCtx.createMediaElementSource(bgMusic);
             lowpassFilter = audioCtx.createBiquadFilter();
-            lowpassFilter.type = 'lowpass';
-            lowpassFilter.frequency.setValueAtTime(20000, audioCtx.currentTime);
-            source.connect(lowpassFilter);
-            lowpassFilter.connect(audioCtx.destination);
+            if(lowpassFilter) {
+                lowpassFilter.type = 'lowpass';
+                lowpassFilter.frequency.setValueAtTime(20000, audioCtx.currentTime);
+                source.connect(lowpassFilter);
+                lowpassFilter.connect(audioCtx.destination);
+            }
         } catch(err) {}
     }
 
     function updateLyrics() {
         if (!idleScreen.classList.contains('active-idle')) return;
+        if (!bgMusic.src.includes("music.mp3")) {
+            lyricsLine.textContent = "Я залипаю в потолок...";
+            return;
+        }
 
         const currentTime = bgMusic.currentTime;
         let currentText = "Я залипаю в потолок...";
 
         for (let i = 0; i < lyricsTimings.length; i++) {
-            if (currentTime >= lyricsTimings[i].time) {
-                currentText = lyricsTimings[i].text;
-            }
+            if (currentTime >= lyricsTimings[i].time) { currentText = lyricsTimings[i].text; }
         }
 
         if (document.body.classList.contains('drunk-mode') && currentText.includes("Я блевал на полу")) {
@@ -169,16 +213,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (lyricsLine.textContent !== currentText) {
             lyricsLine.style.opacity = '0';
             lyricsLine.style.transform = 'translateY(5px)';
-            
             setTimeout(() => {
                 lyricsLine.textContent = currentText;
-                
                 if (currentText.includes("Я блевал на полу")) {
                     lyricsLine.classList.add('highlight-lyrics');
                 } else {
                     lyricsLine.classList.remove('highlight-lyrics');
                 }
-
                 lyricsLine.style.opacity = '1';
                 lyricsLine.style.transform = 'translateY(0)';
             }, 250);
@@ -196,14 +237,15 @@ document.addEventListener('DOMContentLoaded', () => {
             idleScreen.classList.remove('active-idle');
             triggerGlitchFlash(200);
         }
-
         clearTimeout(idleTimer);
         if (!introScreen.classList.contains('hidden')) return;
         idleTimer = setTimeout(activateIdleMode, 12000);
     }
 
     function activateIdleMode() {
+        if (letterOverlay.classList.contains('visible-fade')) return;
         idleScreen.classList.add('active-idle');
+        
         if (lowpassFilter && audioCtx && audioCtx.state !== 'suspended') {
             lowpassFilter.frequency.exponentialRampToValueAtTime(450, audioCtx.currentTime + 1.5);
         }
