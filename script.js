@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { time: 48, text: "Да, я полный придурок, да понял я" }
     ];
 
-    // Устанавливаем стартовый трек
     bgMusic.src = "music.mp3";
 
     function triggerGlitchFlash(duration = 200) {
@@ -88,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // КЛИК ПО КРЫШКЕ: Теперь работает идеально и мгновенно
+    // КЛИК ПО КРЫШКЕ
     capBtn.addEventListener('click', () => {
         triggerGlitchFlash(400);
         introScreen.style.opacity = '0';
@@ -100,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 beerSound.play().catch(() => {});
-                bgMusic.volume = 0.15; // Тихая комфортная громкость 15%
+                bgMusic.volume = 0.15;
                 bgMusic.play().catch(() => {});
             } catch(e) {}
 
@@ -209,7 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function resetIdleTimer() {
         if (idleScreen.classList.contains('active-idle')) {
-            bgMusic.volume = 0.15; // Безопасно возвращаем громкость назад
+            bgMusic.volume = 0.15;
             idleScreen.classList.remove('active-idle');
             triggerGlitchFlash(200);
         }
@@ -221,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function activateIdleMode() {
         if (letterOverlay.classList.contains('visible-fade')) return;
         idleScreen.classList.add('active-idle');
-        bgMusic.volume = 0.03; // Делаем музыку ультра-тихой при залипании
+        bgMusic.volume = 0.03;
         updateLyrics();
     }
 
