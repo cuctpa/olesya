@@ -33,7 +33,7 @@
             <div class="love-timer" id="together-timer">мы вместе: 00д 00ч 00м 00с</div>
         </header>
 
-        <!-- Лента из 7 карточек -->
+        <!-- Лента из 7 карточек (Начало) -->
         <section class="gallery-container">
             <div class="custom-scroll-gallery">
                 
@@ -87,7 +87,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Карточка 4 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
@@ -227,11 +226,10 @@
         </footer>
 
     </main>
-
-    <!-- ВШИТЫЙ АВТОНОМНЫЙ JAVASCRIPT-КОД -->
+    <!-- ВШИТАЯ ЛОГИКА (НАЧАЛО СКРИПТА) -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Укажи вашу дату знакомства (Год, месяц с 0, день, час...)
+        // Настройка вашей даты знакомства (Год, месяц с 0, день, час...)
         const startDate = new Date(2025, 4, 15, 18, 0, 0); 
 
         const introScreen = document.getElementById('intro-screen');
@@ -314,6 +312,7 @@
             });
         });
 
+        // БРОНЕБОЙНЫЙ КЛИК ПО КРЫШКЕ
         capBtn.addEventListener('click', () => {
             triggerGlitchFlash(400);
             introScreen.style.opacity = '0';
@@ -333,7 +332,7 @@
                 updateTogetherTimer();
             }, 600);
         });
-
+        // Управление кассетой (Пауза/Плей)
         playerToggle.addEventListener('click', () => {
             triggerGlitchFlash(120);
             if (bgMusic.paused) {
@@ -345,6 +344,7 @@
             }
         });
 
+        // Переключение треков в плейлисте
         const trackItems = document.querySelectorAll('.track-item');
         trackItems.forEach(item => {
             item.addEventListener('click', (e) => {
@@ -361,6 +361,7 @@
             });
         });
 
+        // Кнопки конверта
         openLetterBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             triggerGlitchFlash(200);
@@ -372,9 +373,7 @@
             letterOverlay.classList.remove('visible-fade');
         });
 
-        pourBeerBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-        // Логика кнопки "Сделать глоток"
+        // Кнопка глотка пива
         pourBeerBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             beerLiters += 0.5;
@@ -399,7 +398,7 @@
             setTimeout(() => { beerCountEl.style.transform = 'scale(1)'; }, 120);
         });
 
-        // Синхронизация текста песни АПФС
+        // Синхронизация текста песни
         function updateLyrics() {
             if (!idleScreen.classList.contains('active-idle')) return;
             if (!bgMusic.src.includes("music.mp3")) {
@@ -436,7 +435,7 @@
 
         bgMusic.addEventListener('timeupdate', updateLyrics);
 
-        // Логика таймера бездействия ("Залипания")
+        // Логика таймаута бездействия
         function resetIdleTimer() {
             if (idleScreen.classList.contains('active-idle')) {
                 bgMusic.volume = 0.15;
@@ -455,7 +454,6 @@
             updateLyrics();
         }
 
-        // Слушатели событий активности для ПК и смартфонов
         window.addEventListener('touchstart', resetIdleTimer, { passive: true });
         window.addEventListener('scroll', resetIdleTimer, { passive: true });
         window.addEventListener('mousemove', resetIdleTimer, { passive: true });
@@ -463,3 +461,6 @@
         window.addEventListener('click', resetIdleTimer, { passive: true });
 
     });
+    </script>
+</body>
+</html>
