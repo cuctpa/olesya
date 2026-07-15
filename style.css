@@ -17,8 +17,13 @@ html, body {
     font-family: 'Courier New', Courier, monospace;
 }
 
-body.drunk-mode {
-    animation: dizzy 6s infinite ease-in-out;
+/* ИСПРАВЛЕННЫЙ ПЬЯНЫЙ РЕЖИМ: Качает только контент, плеер не блокируется */
+body.drunk-mode .aesthetic-header,
+body.drunk-mode .gallery-container,
+body.drunk-mode .beer-bar-section,
+body.drunk-mode .playlist-section,
+body.drunk-mode .letter-trigger-zone { 
+    animation: dizzy 6s infinite ease-in-out; 
 }
 
 @keyframes dizzy {
@@ -27,8 +32,12 @@ body.drunk-mode {
     66% { transform: rotate(-0.8deg) scale(0.99); filter: blur(0.5px); }
 }
 
+/* Размытие фоток при опьянении */
+body.drunk-mode .photo-wrapper img {
+    filter: grayscale(10%) contrast(105%) blur(1px) !important;
+}
 /* ==========================================================================
-   2. АТМОСФЕРНЫЕ ЭФФЕКТЫ (ПОМЕХИ И СЕРДЦА)
+   2. АТМОСФЕРНЫЕ ЭФФЕКТЫ (ПОМЕХИ, СЕРДЦА, ВИНЬЕТКА)
    ========================================================================== */
 #heart-rain-container {
     position: fixed;
@@ -86,7 +95,7 @@ body.drunk-mode {
 }
 
 /* ==========================================================================
-   3. СЕТКА И ЭКРАН БЛОКИРОВКИ
+   3. СЕТКА И ЭКРАН БЛОКИРОВКИ (КРЫШКА)
    ========================================================================== */
 .main-layout {
     display: flex;
@@ -156,7 +165,6 @@ body.drunk-mode {
     0%, 100% { opacity: 0.4; }
     50% { opacity: 1; }
 }
-
 /* ==========================================================================
    4. ДЕКОРАТИВНЫЙ ХЕДЕР И СЧЕТЧИК ЛЮБВИ
    ========================================================================== */
@@ -310,9 +318,8 @@ body.drunk-mode {
     font-weight: bold;
     animation: pulseText 1.5s infinite ease-in-out;
 }
-
 /* ==========================================================================
-   6. ПИВНОЙ БАР, ПЛЕЙЛИСТ И КОНВЕРТ
+   6. ПИВНОЙ БАР, ПЛЕЙЛИСТ И КОНВЕРТ ПИСЬМА
    ========================================================================== */
 .beer-bar-section {
     width: 100%;
@@ -435,74 +442,19 @@ body.drunk-mode {
 .letter-paper h2 { font-size: 18px; color: #FFBF00; margin-bottom: 20px; text-align: center; }
 .letter-scroll-text { overflow-y: auto; flex-grow: 1; font-size: 14px; line-height: 1.6; color: #ccc; text-align: justify; padding-right: 5px; }
 .letter-scroll-text p { margin-bottom: 15px; }
-.close-letter-btn { 
-    position: absolute; 
-    top: 10px; 
-    right: 15px; 
-    background: transparent; 
-    border: none; 
-    color: #666; 
-    font-size: 24px; 
-    cursor: pointer; 
-}
+.close-letter-btn { position: absolute; top: 10px; right: 15px; background: transparent; border: none; color: #666; font-size: 24px; cursor: pointer; }
 
 /* ==========================================================================
-   7. РЕЖИМ СНА И КАССЕТНЫЙ ПЛЕЕР
+   7. РЕЖИМ СНА И КАССЕТНЫЙ ПЛЕЕР (ИСПРАВЛЕННЫЙ ПРИОРИТЕТ КЛИКОВ)
    ========================================================================== */
-.idle-overlay { 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: 100vh; 
-    background: #060606; 
-    z-index: 1500; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    pointer-events: none; 
-    opacity: 0; 
-    transition: opacity 1.2s ease; 
-    padding: 20px; 
-}
+.idle-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #060606; z-index: 1500; display: flex; justify-content: center; align-items: center; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; padding: 20px; }
+.idle-overlay.active-idle { opacity: 0.98; pointer-events: auto; }
+.idle-content { width: 100%; max-width: 600px; text-align: center; }
+.idle-text-line { color: #FFBF00; font-size: 22px; line-height: 1.5; letter-spacing: 2px; margin-bottom: 20px; transition: opacity 0.3s ease, transform 0.3s ease; min-height: 66px; display: flex; align-items: center; justify-content: center; }
+.idle-text-line.highlight-lyrics { color: #ff2a2a; text-shadow: 0 0 10px rgba(255, 42, 42, 0.4); font-weight: bold; }
+.idle-subtext { color: #3c3c3c; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
 
-.idle-overlay.active-idle { 
-    opacity: 0.98; 
-    pointer-events: auto; 
-}
-
-.idle-content { 
-    width: 100%; 
-    max-width: 600px; 
-    text-align: center; 
-}
-
-.idle-text-line { 
-    color: #FFBF00; 
-    font-size: 22px; 
-    line-height: 1.5; 
-    letter-spacing: 2px; 
-    margin-bottom: 20px; 
-    transition: opacity 0.3s ease, transform 0.3s ease; 
-    min-height: 66px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-}
-
-.idle-text-line.highlight-lyrics { 
-    color: #ff2a2a; 
-    text-shadow: 0 0 10px rgba(255, 42, 42, 0.4); 
-    font-weight: bold; 
-}
-
-.idle-subtext { 
-    color: #3c3c3c; 
-    font-size: 11px; 
-    text-transform: uppercase; 
-    letter-spacing: 1px; 
-}
-
+/* НА СУПЕР-ВЕРХНЕМ СЛОЕ: Больше не блокируется покачиванием drunk-mode */
 .player-footer { 
     position: fixed; 
     bottom: 0; 
@@ -510,120 +462,34 @@ body.drunk-mode {
     width: 100%; 
     background: linear-gradient(to top, #090909 85%, transparent); 
     padding: 25px 20px; 
-    z-index: 900; 
+    z-index: 9999; 
+    pointer-events: auto;
 }
 
-.cassette-container { 
-    width: 100%; 
-    max-width: 360px; 
-    margin: 0 auto; 
-}
+.cassette-container { width: 100%; max-width: 360px; margin: 0 auto; }
+.cassette-deck { background: #161616; border: 2px solid #222; border-radius: 6px; padding: 14px; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8); cursor: pointer; }
+.cassette-window { width: 65%; height: 42px; background: #070707; margin: 0 auto 12px auto; border-radius: 4px; border: 1px dashed #2a2a2a; display: flex; justify-content: space-around; align-items: center; }
+.tape-wheel { width: 26px; height: 26px; border: 4px dotted #3a3a3a; border-radius: 50%; position: relative; animation: rotateWheel 3.5s linear infinite; }
+.wheel-lines { position: absolute; top: 50%; left: 50%; width: 100%; height: 2px; background: #444; transform: translate(-50%, -50%); }
+.tape-wheel.paused { animation-play-state: paused !important; }
 
-.cassette-deck { 
-    background: #161616; 
-    border: 2px solid #222; 
-    border-radius: 6px; 
-    padding: 14px; 
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8); 
-    cursor: pointer; 
-}
+@keyframes rotateWheel { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.cassette-label { display: flex; justify-content: space-between; background: #1f1f1f; border-left: 4px solid #FFBF00; padding: 5px 10px; border-radius: 2px; }
+.label-artist { font-size: 12px; font-weight: bold; color: #999; }
+.label-track { font-size: 11px; color: #555; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-.cassette-window { 
-    width: 65%; 
-    height: 42px; 
-    background: #070707; 
-    margin: 0 auto 12px auto; 
-    border-radius: 4px; 
-    border: 1px dashed #2a2a2a; 
-    display: flex; 
-    justify-content: space-around; 
-    align-items: center; 
-}
+.hidden-fade { opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
+.visible-fade { opacity: 1 !important; pointer-events: auto !important; }
 
-.tape-wheel { 
-    width: 26px; 
-    height: 26px; 
-    border: 4px dotted #3a3a3a; 
-    border-radius: 50%; 
-    position: relative; 
-    animation: rotateWheel 3.5s linear infinite; 
-}
-
-.wheel-lines { 
-    position: absolute; 
-    top: 50%; 
-    left: 50%; 
-    width: 100%; 
-    height: 2px; 
-    background: #444; 
-    transform: translate(-50%, -50%); 
-}
-
-.tape-wheel.paused { 
-    animation-play-state: paused !important; 
-}
-
-@keyframes rotateWheel { 
-    0% { transform: rotate(0deg); } 
-    100% { transform: rotate(360deg); } 
-}
-
-.cassette-label { 
-    display: flex; 
-    justify-content: space-between; 
-    background: #1f1f1f; 
-    border-left: 4px solid #FFBF00; 
-    padding: 5px 10px; 
-    border-radius: 2px; 
-}
-
-.label-artist { 
-    font-size: 12px; 
-    font-weight: bold; 
-    color: #999; 
-}
-
-.label-track { 
-    font-size: 11px; 
-    color: #555; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-    white-space: nowrap; 
-}
-
-.hidden-fade { 
-    opacity: 0; 
-    pointer-events: none; 
-    transition: opacity 0.5s ease; 
-}
-
-.visible-fade { 
-    opacity: 1 !important; 
-    pointer-events: auto !important; 
-}
-
+/* ==========================================================================
+   8. АДАПТИВНОСТЬ ПОД МОБИЛЬНЫЕ ТЕЛЕФОНЫ
+   ========================================================================== */
 @media (max-width: 480px) {
-    .custom-scroll-gallery { 
-        max-width: 100%; 
-        padding: 10px 15px; 
-    }
-    .scroll-slide { 
-        flex: 0 0 265px; 
-    }
-    .flip-card { 
-        height: 385px; 
-    }
-    .photo-wrapper { 
-        height: 285px; 
-    }
-    .glitch-text { 
-        font-size: 17px; 
-    }
-    .idle-text-line { 
-        font-size: 16px; 
-        min-height: 48px; 
-    }
-    .counter-value { 
-        font-size: 26px; 
-    }
+    .custom-scroll-gallery { max-width: 100%; padding: 10px 15px; }
+    .scroll-slide { flex: 0 0 265px; }
+    .flip-card { height: 385px; }
+    .photo-wrapper { height: 285px; }
+    .glitch-text { font-size: 17px; }
+    .idle-text-line { font-size: 16px; min-height: 48px; }
+    .counter-value { font-size: 26px; }
 }
