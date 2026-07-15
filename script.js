@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const wheels = document.querySelectorAll('.tape-wheel');
     const pourBeerBtn = document.getElementById('pour-beer-btn');
     const beerCountEl = document.getElementById('beer-count');
-    const goalText = document.getElementById('goal-text'); // Текст цели
+    const goalText = document.getElementById('goal-text');
     const idleScreen = document.getElementById('idle-screen');
     const lyricsLine = document.getElementById('lyrics-line');
     const rainContainer = document.getElementById('heart-rain-container');
@@ -73,18 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { heart.remove(); }, 4000);
     }
 
-    // Логика 3D переворота + скрытие надписи [тапни]
     const flipCards = document.querySelectorAll('.flip-card');
     flipCards.forEach(card => {
         card.addEventListener('click', () => {
             triggerGlitchFlash(80);
             card.classList.toggle('is-flipped');
             
-            // Находим и скрываем мигающую подсказку после первого же тапа на карту
             const blinkHint = card.querySelector('.hint-blink');
-            if (blinkHint) {
-                blinkHint.style.display = 'none';
-            }
+            if (blinkHint) { blinkHint.style.display = 'none'; }
         });
     });
 
@@ -117,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Кнопка глотка
     pourBeerBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         beerLiters += 0.5;
@@ -128,13 +123,11 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(createFallingHeart, i * 150);
         }
 
-        // Логика подсказки цели: подсвечиваем зеленым на 5 литрах
         if (beerLiters >= 5.0) {
             document.body.classList.add('drunk-mode');
             goalText.textContent = "цель выполнена: секрет открыт ✔";
             goalText.classList.add('goal-reached');
         } else {
-            // Динамическая подсказка сколько осталось до секрета
             let left = (5.0 - beerLiters).toFixed(1);
             goalText.textContent = `цель: 5.0 л (осталось ${left} л)`;
         }
