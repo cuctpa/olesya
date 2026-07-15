@@ -8,13 +8,12 @@
 </head>
 <body>
 
-    <!-- Контейнер для эффекта падающих романтичных сердец -->
+    <!-- Элементы для эффектов -->
     <div id="heart-rain-container"></div>
-    
-    <!-- Эффект виньетки и ТВ-помех -->
     <div class="vignette"></div>
     <div class="tv-noise"></div>
 
+    <!-- ИНТРО ЭКРАН С КРЫШКОЙ -->
     <div id="intro-screen" class="screen">
         <div class="intro-content">
             <div class="beer-cap-trigger" id="cap-btn">
@@ -25,14 +24,16 @@
         </div>
     </div>
 
+    <!-- ОСНОВНОЙ КОНТЕНТ САЙТА -->
     <main id="main-content" class="main-layout hidden">
         
         <header class="aesthetic-header">
             <h1 class="glitch-text" data-text="автостопом по фазе сна">автостопом по фазе сна</h1>
             <p class="sub-quote">«...в руке бутылка пива»</p>
+            <div class="love-timer" id="together-timer">мы вместе: 00д 00ч 00м 00с</div>
         </header>
 
-        <!-- Галерея с интерактивным переворотом карт (3D Flip) -->
+        <!-- Лента из 7 карточек -->
         <section class="gallery-container">
             <div class="custom-scroll-gallery">
                 
@@ -121,7 +122,7 @@
                     </div>
                 </div>
 
-                <!-- Карточка 6 (Новая) -->
+                <!-- Карточка 6 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
                         <div class="flip-card-inner">
@@ -138,7 +139,7 @@
                     </div>
                 </div>
 
-                <!-- Карточка 7 (Новая) -->
+                <!-- Карточка 7 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
                         <div class="flip-card-inner">
@@ -158,7 +159,7 @@
             </div>
         </section>
 
-        <!-- ПИВНОЙ БАР С ПОДСКАЗКОЙ ПРО 5 ЛИТРОВ -->
+        <!-- ПИВНОЙ БАР -->
         <section class="beer-bar-section">
             <div class="beer-counter-card">
                 <span class="counter-label">ВЫПИТО ПИВА ВМЕСТЕ:</span>
@@ -168,30 +169,25 @@
             </div>
         </section>
 
-        <div id="idle-screen" class="idle-overlay hidden-fade">
-            <div class="idle-content">
-                <p class="idle-text-line" id="lyrics-line">Я залипаю в потолок...</p>
-                <p class="idle-subtext">пошевели мышкой или коснись экрана, чтобы вернуться</p>
+        <!-- НАШ ПЛЕЙЛИСТ -->
+        <section class="playlist-section">
+            <h3 class="playlist-title">наша музыка:</h3>
+            <div class="track-list">
+                <div class="track-item active" data-src="music.mp3">1. АПФС — Ма, я лаю</div>
+                <div class="track-item" data-src="track2.mp3">2. Кишлак — Залипаю</div>
+                <div class="track-item" data-src="track3.mp3">3. АПФС — Грязный кайф</div>
             </div>
+        </section>
+
+        <!-- КНОПКА КОНВЕРТА -->
+        <div class="letter-trigger-zone">
+            <button class="open-letter-btn" id="open-envelope-btn">✉️ Открыть конверт</button>
         </div>
 
-        <footer class="player-footer">
-            <div class="cassette-container" id="player-toggle">
-                <audio id="bg-music" loop prefetch>
-                    <source src="music.mp3" type="audio/mpeg">
-                    <source src="music.MP3" type="audio/mpeg">
-                </audio>
-                <audio id="beer-sound">
-                    <source src="beer_open.mp3" type="audio/mpeg">
-                    <source src="beer_open.MP3" type="audio/mpeg">
-                </audio>
-
-                <div class="cassette-deck">
-                    <div class="cassette-window">
-                        <div class="tape-wheel left-wheel paused"><div class="wheel-lines"></div></div>
-                        <div class="tape-reel"></div>
-                        <div class="tape-wheel right-wheel paused"><div class="wheel-lines"></div></div>
-                    </div>
-                    <div class="cassette-label">
-                        <span class="label-artist">АПФС</span>
-                        <span class="label-track">Ма, я лаю (A-Side)</span>
+        <!-- ОВЕРЛЕЙ ПИСЬМА -->
+        <div id="letter-overlay" class="letter-modal hidden-fade">
+            <div class="letter-paper">
+                <button class="close-letter-btn" id="close-envelope-btn">×</button>
+                <h2>Для тебя, Олеся</h2>
+                <div class="letter-scroll-text">
+                    <p>Здесь ты можешь написать длинное, полноценное и очень красивое письмо для нее. Расскажи, как сильно ты её любишь, вспомни ваши лучшие моменты, дачные посиделки под треки Максима Фисенко или то, как вы вместе пьете пиво по вечерам.</p>
