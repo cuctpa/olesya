@@ -21,6 +21,7 @@ html, body {
 body.drunk-mode .aesthetic-header,
 body.drunk-mode .gallery-container,
 body.drunk-mode .beer-bar-section,
+body.drunk-mode .wheel-section,
 body.drunk-mode .playlist-section,
 body.drunk-mode .letter-trigger-zone { 
     animation: dizzy 6s infinite ease-in-out; 
@@ -93,7 +94,6 @@ body.drunk-mode .photo-wrapper img {
 .tv-noise.glitch-flash {
     opacity: 0.22;
 }
-
 /* ==========================================================================
    3. СЕТКА И ЭКРАН БЛОКИРОВКИ (КРЫШКА)
    ========================================================================== */
@@ -166,7 +166,7 @@ body.drunk-mode .photo-wrapper img {
     50% { opacity: 1; }
 }
 /* ==========================================================================
-   4. ДЕКОРАТИВНЫЙ ХЕДЕР И СЧЕТЧИК ЛЮБВИ
+   4. ДЕКОРАТИВНЫЙ ХЕДЕР И АВТОНОМНАЯ ГАЛЕРЕЯ КАРТОЧЕК С 3D FLIP
    ========================================================================== */
 .aesthetic-header {
     text-align: center;
@@ -188,17 +188,6 @@ body.drunk-mode .photo-wrapper img {
     font-style: italic;
 }
 
-.love-timer {
-    font-size: 11px;
-    color: #666;
-    letter-spacing: 1px;
-    margin-top: 10px;
-    text-transform: uppercase;
-}
-
-/* ==========================================================================
-   5. АВТОНОМНАЯ ГАЛЕРЕЯ КАРТОЧЕК С 3D FLIP
-   ========================================================================== */
 .gallery-container {
     width: 100%;
     display: flex;
@@ -259,7 +248,6 @@ body.drunk-mode .photo-wrapper img {
 .flip-card-front {
     background: transparent;
 }
-
 .flip-card-back {
     background: #141414;
     color: #FFBF00;
@@ -318,8 +306,9 @@ body.drunk-mode .photo-wrapper img {
     font-weight: bold;
     animation: pulseText 1.5s infinite ease-in-out;
 }
+
 /* ==========================================================================
-   6. ПИВНОЙ БАР, ПЛЕЙЛИСТ И КОНВЕРТ ПИСЬМА
+   5. ПИВНОЙ БАР И НАШ ПЛЕЙЛИСТ
    ========================================================================== */
 .beer-bar-section {
     width: 100%;
@@ -349,7 +338,6 @@ body.drunk-mode .photo-wrapper img {
     margin-bottom: 5px;
     transition: transform 0.1s ease;
 }
-
 .secret-goal-box {
     font-size: 11px;
     color: #444;
@@ -410,43 +398,111 @@ body.drunk-mode .photo-wrapper img {
 .track-item:last-child { border: none; }
 .track-item.active { color: #FFBF00; font-weight: bold; border-left: 2px solid #FFBF00; padding-left: 8px; }
 
+/* ==========================================================================
+   6. КОЛЕСО ФОРТУНЫ "ЦВЕТОЧНЫЙ АЗАРТ"
+   ========================================================================== */
+.wheel-section {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto 30px auto;
+    background: #111;
+    border: 1px dashed #FFBF00;
+    padding: 20px 15px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.wheel-title {
+    font-size: 11px;
+    color: #FFBF00;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.wheel-wrapper {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 20px auto;
+}
+/* Крутящаяся пивная крышка */
+.fortune-cap-wheel {
+    width: 100%;
+    height: 100%;
+    background: #FFBF00;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 25px rgba(255, 191, 0, 0.15);
+    transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1);
+    border: 4px dashed #cc9900;
+}
+
+/* Красная стрелка-указатель сверху */
+.wheel-pointer {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 18px solid #ff2a2a;
+    z-index: 10;
+    filter: drop-shadow(0 0 5px rgba(255,42,42,0.4));
+}
+
+/* Эмодзи по краям крышки (призы) */
+.wheel-emoji {
+    position: absolute;
+    font-size: 20px;
+}
+.e-top { top: 12px; left: 50%; transform: translateX(-50%); }
+.e-right { right: 12px; top: 50%; transform: translateY(-50%); }
+.e-bottom { bottom: 12px; left: 50%; transform: translateX(-50%); }
+.e-left { left: 12px; top: 50%; transform: translateY(-50%); }
+
+.wheel-result {
+    font-size: 12px;
+    color: #888;
+    min-height: 34px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    padding: 0 10px;
+}
+
+.spin-btn {
+    background: transparent;
+    border: 1px solid #FFBF00;
+    color: #FFBF00;
+    font-family: inherit;
+    font-size: 11px;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+}
+
+.spin-btn:active { transform: scale(0.95); }
+.spin-btn:disabled { border-color: #333; color: #444; cursor: not-allowed; }
+
+/* ==========================================================================
+   7. КОНВЕРТ ПИСЬМА, РЕЖИМ СНА И ПЛЕЙЕР
+   ========================================================================== */
 .letter-trigger-zone { text-align: center; margin-bottom: 40px; }
 .open-letter-btn { background: transparent; border: 1px dashed #FFBF00; color: #FFBF00; font-family: inherit; font-size: 12px; padding: 12px 24px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
 .open-letter-btn:active { background: rgba(255,191,0,0.1); }
 
-.letter-modal {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(5,5,5,0.95);
-    z-index: 2000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 25px;
-}
-
-.letter-paper {
-    background: #161616;
-    border: 1px solid #333;
-    width: 100%;
-    max-width: 450px;
-    max-height: 80vh;
-    padding: 30px 20px;
-    position: relative;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-}
-
+.letter-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5,5,5,0.95); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 25px; }
+.letter-paper { background: #161616; border: 1px solid #333; width: 100%; max-width: 450px; max-height: 80vh; padding: 30px 20px; position: relative; border-radius: 4px; display: flex; flex-direction: column; }
 .letter-paper h2 { font-size: 18px; color: #FFBF00; margin-bottom: 20px; text-align: center; }
 .letter-scroll-text { overflow-y: auto; flex-grow: 1; font-size: 14px; line-height: 1.6; color: #ccc; text-align: justify; padding-right: 5px; }
 .letter-scroll-text p { margin-bottom: 15px; }
 .close-letter-btn { position: absolute; top: 10px; right: 15px; background: transparent; border: none; color: #666; font-size: 24px; cursor: pointer; }
 
-/* ==========================================================================
-   7. РЕЖИМ СНА И КАССЕТНЫЙ ПЛЕЕР (ИСПРАВЛЕННЫЙ ПРИОРИТЕТ КЛИКОВ)
-   ========================================================================== */
 .idle-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #060606; z-index: 1500; display: flex; justify-content: center; align-items: center; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; padding: 20px; }
 .idle-overlay.active-idle { opacity: 0.98; pointer-events: auto; }
 .idle-content { width: 100%; max-width: 600px; text-align: center; }
@@ -454,18 +510,7 @@ body.drunk-mode .photo-wrapper img {
 .idle-text-line.highlight-lyrics { color: #ff2a2a; text-shadow: 0 0 10px rgba(255, 42, 42, 0.4); font-weight: bold; }
 .idle-subtext { color: #3c3c3c; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
 
-/* НА СУПЕР-ВЕРХНЕМ СЛОЕ: Больше не блокируется покачиванием drunk-mode */
-.player-footer { 
-    position: fixed; 
-    bottom: 0; 
-    left: 0; 
-    width: 100%; 
-    background: linear-gradient(to top, #090909 85%, transparent); 
-    padding: 25px 20px; 
-    z-index: 9999; 
-    pointer-events: auto;
-}
-
+.player-footer { position: fixed; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, #090909 85%, transparent); padding: 25px 20px; z-index: 9999; pointer-events: auto; }
 .cassette-container { width: 100%; max-width: 360px; margin: 0 auto; }
 .cassette-deck { background: #161616; border: 2px solid #222; border-radius: 6px; padding: 14px; box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8); cursor: pointer; }
 .cassette-window { width: 65%; height: 42px; background: #070707; margin: 0 auto 12px auto; border-radius: 4px; border: 1px dashed #2a2a2a; display: flex; justify-content: space-around; align-items: center; }
@@ -481,9 +526,6 @@ body.drunk-mode .photo-wrapper img {
 .hidden-fade { opacity: 0; pointer-events: none; transition: opacity 0.5s ease; }
 .visible-fade { opacity: 1 !important; pointer-events: auto !important; }
 
-/* ==========================================================================
-   8. АДАПТИВНОСТЬ ПОД МОБИЛЬНЫЕ ТЕЛЕФОНЫ
-   ========================================================================== */
 @media (max-width: 480px) {
     .custom-scroll-gallery { max-width: 100%; padding: 10px 15px; }
     .scroll-slide { flex: 0 0 265px; }
