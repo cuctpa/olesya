@@ -28,9 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let idleTimer;
     let beerLiters = 0;
-    let audioCtx, source, lowpassFilter;
-    let isAudioCtxInitialized = false;
 
+    // Тайминги для бегущей строки песни АПФС — «Ма, я лаю» (в секундах)
     const lyricsTimings = [
         { time: 0, text: "Я залипаю в потолок..." },
         { time: 4, text: "Малая, проглоти со мной, и я тебе полаю" },
@@ -47,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { time: 48, text: "Да, я полный придурок, да понял я" }
     ];
 
+    // Устанавливаем стартовый трек
     bgMusic.src = "music.mp3";
 
     function triggerGlitchFlash(duration = 200) {
@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // КЛИК ПО КРЫШКЕ: Теперь работает идеально и мгновенно
     capBtn.addEventListener('click', () => {
         triggerGlitchFlash(400);
         introScreen.style.opacity = '0';
@@ -99,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 beerSound.play().catch(() => {});
-                bgMusic.volume = 0.15;
+                bgMusic.volume = 0.15; // Тихая комфортная громкость 15%
                 bgMusic.play().catch(() => {});
             } catch(e) {}
 
@@ -113,7 +114,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (bgMusic.paused) {
             bgMusic.play().catch(() => {});
             wheels.forEach(w => w.classList.remove('paused'));
-            if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
         } else {
             bgMusic.pause();
             wheels.forEach(w => w.classList.add('paused'));
@@ -149,12 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     pourBeerBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        
-        if (!isAudioCtxInitialized) {
-            initAudioFilters();
-            isAudioCtxInitialized = true;
-        }
-
         beerLiters += 0.5;
         beerCountEl.textContent = beerLiters.toFixed(1);
         triggerGlitchFlash(150);
@@ -176,21 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
         beerCountEl.style.transform = 'scale(1.2)';
         setTimeout(() => { beerCountEl.style.transform = 'scale(1)'; }, 120);
     });
-
-    function initAudioFilters() {
-        try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioCtx = new AudioContext();
-            source = audioCtx.createMediaElementSource(bgMusic);
-            lowpassFilter = audioCtx.createBiquadFilter();
-            if(lowpassFilter) {
-                lowpassFilter.type = 'lowpass';
-                lowpassFilter.frequency.setValueAtTime(20000, audioCtx.currentTime);
-                source.connect(lowpassFilter);
-                lowpassFilter.connect(audioCtx.destination);
-            }
-        } catch(err) {}
-    }
 
     function updateLyrics() {
         if (!idleScreen.classList.contains('active-idle')) return;
@@ -230,10 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function resetIdleTimer() {
         if (idleScreen.classList.contains('active-idle')) {
-            if (lowpassFilter && audioCtx && audioCtx.state !== 'suspended') {
-                lowpassFilter.frequency.exponentialRampToValueAtTime(20000, audioCtx.currentTime + 0.4);
-            }
-            bgMusic.volume = 0.15;
+            bgMusic.volume = 0.15; // Безопасно возвращаем громкость назад
             idleScreen.classList.remove('active-idle');
             triggerGlitchFlash(200);
         }
@@ -245,11 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function activateIdleMode() {
         if (letterOverlay.classList.contains('visible-fade')) return;
         idleScreen.classList.add('active-idle');
-        
-        if (lowpassFilter && audioCtx && audioCtx.state !== 'suspended') {
-            lowpassFilter.frequency.exponentialRampToValueAtTime(450, audioCtx.currentTime + 1.5);
-        }
-        bgMusic.volume = 0.04;
+        bgMusic.volume = 0.03; // Делаем музыку ультра-тихой при залипании
         updateLyrics();
     }
 
