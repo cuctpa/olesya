@@ -179,18 +179,18 @@
         <div class="letter-trigger-zone">
             <button class="open-letter-btn" id="open-envelope-btn">✉️ Открыть конверт</button>
         </div>
-        <!-- ОВЕРЛЕЙ ДЛЯ БОЛЬШОГО ПИСЬМА -->
+
+        <!-- ОВЕРЛЕЙ ПИСЬМА С ТВОИМ ТЕКСТОМ -->
         <div id="letter-overlay" class="letter-modal hidden-fade">
             <div class="letter-paper">
                 <button class="close-letter-btn" id="close-envelope-btn">×</button>
                 <h2>Для тебя, Олеся</h2>
                 <div class="letter-scroll-text">
-                    <p>Привет Олеся, я очень рад что ты появилась в моей жизни, я очень сильно тебя люблю, мне нравятся все твои шутки, слова, действия, я очень желаю, чтобы ты радовалась этому сайту, я очень жду от тебя большой благодарности в предлложении или в жизни, я желаю тебе всего самого наилучшего в этой жизни, все наши с тобой моменты до отношений я очень хорошо помню, и я рад что я встретил именно тебя в таких взаимопониманиях.</p>
-                    <p>Этот сайт — лишь малая часть того, что я чувствую к тебе каждый день. Ты мой самый близкий человек, мой лучший бро и моя самая любимая девочка. Спасибо, что ты есть у меня. 🖤</p>
+                    <p>Привет Олеся, я очень рад что ты появилась в моей жизни, я очень сильно тебя люблю, мне нравятся все твои шутки, слова, действия, я очень желаю, чтобы ты радовалась этому сайту, я очень жду от тебя большой благодарности в предлложении или в жизни.</p>
+                    <p>Я желаю тебе всего самого наилучшего в этой жизни, все наши с тобой моменты до отношений я очень хорошо помню, и я рад что я встретил именно тебя в таких взаимопониманиях. 🖤</p>
                 </div>
             </div>
         </div>
-
         <!-- ЭКРАН ЗАЛИПАНИЯ -->
         <div id="idle-screen" class="idle-overlay hidden-fade">
             <div class="idle-content">
@@ -223,7 +223,7 @@
         </footer>
 
     </main>
-    <!-- ВШИТАЯ ЛОГИКА (ЧАСТЬ 1 ИЗ 4: ПЕРЕМЕННЫЕ И БАЗА ТЕКСТОВ) -->
+    <!-- ВШИТАЯ ЛОГИКА (ЧАСТЬ 1 ИЗ 4: ПЕРЕМЕННЫЕ И БАЗА ТЕКСТОВ ПО НОМЕРАМ) -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // Настройка вашей даты знакомства (Год, месяц с 0: май=4, день, час...)
@@ -251,10 +251,13 @@
 
         let idleTimer;
         let beerLiters = 0;
+        
+        // Храним индекс текущего трека (0 - Ма я лаю, 1 - Эй, 2 - Грязный кайф)
+        let currentTrackIndex = 0;
 
-        // Полноценная база бегущих строк ДЛЯ КАЖДОЙ ПЕСНИ отдельно (по секундам)
+        // Полная база бегущих строк, привязанная строго к номерам треков (0, 1, 2)
         const allTracksLyrics = {
-            "music.mp3": [
+            0: [
                 { time: 0, text: "Я залипаю в потолок..." },
                 { time: 4, text: "Малая, проглоти со мной, и я тебе полаю" },
                 { time: 8, text: "Насыпаю, наливаю..." },
@@ -264,23 +267,23 @@
                 { time: 24, text: "Насыпаю, наливаю..." },
                 { time: 28, text: "Малая, проглоти со мной, и я тебе полаю" },
                 { time: 32, text: "Насыпаю, наливаю..." },
-                { time: 37, text: "Моё childhood все болью наполнено" },
+                { time: 37, text: "Моё детство все болью наполнено" },
                 { time: 40, text: "Я блевал на полу, не от пойла, но..." },
                 { time: 44, text: "Ты по-прежнему бро мой, пойман я" },
                 { time: 48, text: "Да, я полный придурок, да понял я" },
                 { time: 52, text: "Я залипаю в потолок..." }
             ],
-            "track2.mp3": [
+            1: [
                 { time: 0, text: "Слушаешь трек «Эй»..." },
                 { time: 4, text: "Эй, малая, ты меня слышишь?.." },
                 { time: 8, text: "Подойди ко мне поближе" },
                 { time: 12, text: "Посмотри в мои глаза" },
                 { time: 15, text: "Я люблю тебя, хоть ты и дура!" },
-                { time: 19, text: "Но у тебя такая фигура..." },
+                { time: 19, text: "Но у тебя такая figura..." },
                 { time: 24, text: "И пускай все катится к чертям" },
                 { time: 28, text: "Я залипаю в потолок..." }
             ],
-            "track3.mp3": [
+            2: [
                 { time: 0, text: "Слушаешь трек «Грязный кайф»..." },
                 { time: 5, text: "Это грязный кайф, малая..." },
                 { time: 10, text: "Ты мой самый лучший грязный кайф" },
@@ -360,12 +363,15 @@
         });
 
         const trackItems = document.querySelectorAll('.track-item');
-        trackItems.forEach(item => {
+        trackItems.forEach((item, index) => {
             item.addEventListener('click', (e) => {
                 e.stopPropagation();
                 triggerGlitchFlash(150);
                 trackItems.forEach(t => t.classList.remove('active'));
                 item.classList.add('active');
+
+                // Сохраняем точный индекс включенной песни (0, 1 или 2)
+                currentTrackIndex = index;
 
                 bgMusic.src = item.getAttribute('data-src');
                 playerTrackTitle.textContent = item.textContent.replace(/^\d+\.\s*/, '') + " (A-Side)";
@@ -409,11 +415,12 @@
             setTimeout(() => { beerCountEl.style.transform = 'scale(1)'; }, 120);
         });
 
+        // Умная синхронизация строк строго по сохраненному индексу currentTrackIndex
         function updateLyrics() {
             if (!idleScreen.classList.contains('active-idle')) return;
 
-            const currentTrackFile = bgMusic.src.split('/').pop();
-            const trackLyrics = allTracksLyrics[currentTrackFile] || allTracksLyrics["music.mp3"];
+            // Берем массив текста именно для той песни, которую включили (0, 1 или 2)
+            const trackLyrics = allTracksLyrics[currentTrackIndex] || allTracksLyrics[0];
 
             const currentTime = bgMusic.currentTime;
             let currentText = "Я залипаю в потолок...";
@@ -424,7 +431,7 @@
                 }
             }
 
-            if (document.body.classList.contains('drunk-mode') && currentTrackFile === "music.mp3" && currentText.includes("Я блевал на полу")) {
+            if (document.body.classList.contains('drunk-mode') && currentTrackIndex === 0 && currentText.includes("Я блевал на полу")) {
                 currentText = "Я блевал на полу, не от пойла, но... Ты по-прежнему бро мой. Я люблю тебя! 🖤";
             }
 
