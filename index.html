@@ -30,13 +30,11 @@
         <header class="aesthetic-header">
             <h1 class="glitch-text" data-text="автостопом по фазе сна">автостопом по фазе сна</h1>
             <p class="sub-quote">«...в руке бутылка пива»</p>
-            <div class="love-timer" id="together-timer">мы вместе: 00д 00ч 00м 00с</div>
         </header>
 
         <!-- Лента из 7 карточек -->
         <section class="gallery-container">
             <div class="custom-scroll-gallery">
-                
                 <!-- Карточка 1 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
@@ -53,6 +51,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- Карточка 2 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
@@ -69,7 +68,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Карточка 3 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
@@ -86,6 +84,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- Карточка 4 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
@@ -102,7 +101,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Карточка 5 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
@@ -114,11 +112,12 @@
                                 </div>
                             </div>
                             <div class="flip-card-back">
-                                <p class="back-love-text">Тот самый трушный каноничный кадр. Самая лучшая девочка на этой планете. 👑</p>
+                                <p class="back-text">Пример фотографии в стиле андеграунд. Описание кадра и композиции. 📸</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <!-- Карточка 6 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
@@ -130,12 +129,11 @@
                                 </div>
                             </div>
                             <div class="flip-card-back">
-                                <p class="back-love-text">Этот твой загадочный взгляд в сторону... В нём столько глубины, что я готов растворяться в нём снова и снова. 🎞️</p>
+                                <p class="back-text">Кинематографичный портрет. Описание освещения и настроения снимка. 🎞️</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <!-- Карточка 7 -->
                 <div class="scroll-slide">
                     <div class="flip-card">
@@ -155,6 +153,7 @@
 
             </div>
         </section>
+
         <!-- ПИВНОЙ БАР -->
         <section class="beer-bar-section">
             <div class="beer-counter-card">
@@ -164,7 +163,6 @@
                 <button class="add-beer-btn" id="pour-beer-btn">➕ Сделать глоток</button>
             </div>
         </section>
-
         <!-- НАШ ПЛЕЙЛИСТ -->
         <section class="playlist-section">
             <h3 class="playlist-title">наша музыка:</h3>
@@ -223,11 +221,10 @@
         </footer>
 
     </main>
-    <!-- ВШИТАЯ ЛОГИКА (ЧАСТЬ 1 ИЗ 4: ПЕРЕМЕННЫЕ И БАЗА ТЕКСТОВ ПО НОМЕРАМ) -->
+
+    <!-- ВШИТАЯ ЛОГИКА (ЧАСТЬ 1 ИЗ 6) -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Настройка вашей даты знакомства (Год, месяц с 0: май=4, день, час...)
-        const startDate = new Date(2025, 4, 15, 18, 0, 0); 
 
         const introScreen = document.getElementById('intro-screen');
         const mainContent = document.getElementById('main-content');
@@ -243,7 +240,6 @@
         const idleScreen = document.getElementById('idle-screen');
         const lyricsLine = document.getElementById('lyrics-line');
         const rainContainer = document.getElementById('heart-rain-container');
-        const togetherTimerEl = document.getElementById('together-timer');
         const playerTrackTitle = document.getElementById('player-track-title');
         const openLetterBtn = document.getElementById('open-envelope-btn');
         const closeLetterBtn = document.getElementById('close-envelope-btn');
@@ -251,51 +247,46 @@
 
         let idleTimer;
         let beerLiters = 0;
-        
-        // Храним индекс текущего трека (0 - Ма я лаю, 1 - Эй, 2 - Грязный кайф)
-        let currentTrackIndex = 0;
+        // Изолированная база строк под каждую песню отдельно
+        const lyricsMaYaLayu = [
+            { time: 0, text: "Я залипаю в потолок..." },
+            { time: 4, text: "Инструментальная пауза" },
+            { time: 8, text: "Продолжение мелодии..." },
+            { time: 12, text: "Текст первой песни" },
+            { time: 16, text: "Повторение куплета..." },
+            { time: 20, text: "Текст первой песни" },
+            { time: 24, text: "Повторение куплета..." },
+            { time: 28, text: "Текст первой песни" },
+            { time: 32, text: "Повторение куплета..." },
+            { time: 37, text: "Воспоминания о прошлом" },
+            { time: 40, text: "Сложные моменты жизни" },
+            { time: 44, text: "Мысли о друзьях" },
+            { time: 48, text: "Размышления о себе" },
+            { time: 52, text: "Я залипаю в потолок..." }
+        ];
 
-        // Полная база бегущих строк, привязанная строго к номерам треков (0, 1, 2)
-        const allTracksLyrics = {
-            0: [
-                { time: 0, text: "Я залипаю в потолок..." },
-                { time: 4, text: "Малая, проглоти со мной, и я тебе полаю" },
-                { time: 8, text: "Насыпаю, наливаю..." },
-                { time: 12, text: "Малая, проглоти со мной, и я тебе полаю" },
-                { time: 16, text: "Насыпаю, наливаю..." },
-                { time: 20, text: "Малая, проглоти со мной, и я тебе полаю" },
-                { time: 24, text: "Насыпаю, наливаю..." },
-                { time: 28, text: "Малая, проглоти со мной, и я тебе полаю" },
-                { time: 32, text: "Насыпаю, наливаю..." },
-                { time: 37, text: "Моё детство все болью наполнено" },
-                { time: 40, text: "Я блевал на полу, не от пойла, но..." },
-                { time: 44, text: "Ты по-прежнему бро мой, пойман я" },
-                { time: 48, text: "Да, я полный придурок, да понял я" },
-                { time: 52, text: "Я залипаю в потолок..." }
-            ],
-            1: [
-                { time: 0, text: "Слушаешь трек «Эй»..." },
-                { time: 4, text: "Эй, малая, ты меня слышишь?.." },
-                { time: 8, text: "Подойди ко мне поближе" },
-                { time: 12, text: "Посмотри в мои глаза" },
-                { time: 15, text: "Я люблю тебя, хоть ты и дура!" },
-                { time: 19, text: "Но у тебя такая figura..." },
-                { time: 24, text: "И пускай все катится к чертям" },
-                { time: 28, text: "Я залипаю в потолок..." }
-            ],
-            2: [
-                { time: 0, text: "Слушаешь трек «Грязный кайф»..." },
-                { time: 5, text: "Это грязный кайф, малая..." },
-                { time: 10, text: "Ты мой самый лучший грязный кайф" },
-                { time: 15, text: "С тобой в этой темной комнате" },
-                { time: 20, text: "Мы ловим наш бесконечный вайб" },
-                { time: 25, text: "И пускай весь мир подождет" },
-                { time: 30, text: "Я залипаю в потолок..." }
-            ]
-        };
+        const lyricsEy = [
+            { time: 0, text: "Слушаешь трек №2..." },
+            { time: 4, text: "Вступление вокальной партии..." },
+            { time: 8, text: "Подойди ко мне поближе" },
+            { time: 12, text: "Посмотри в мои глаза" },
+            { time: 15, text: "Признание в чувствах" },
+            { time: 19, text: "Описание образа" },
+            { time: 24, text: "Эмоции и переживания" },
+            { time: 28, text: "Я залипаю в потолок..." }
+        ];
+
+        const lyricsGryaznyKayf = [
+            { time: 0, text: "Слушаешь трек №3..." },
+            { time: 5, text: "Начало композиции..." },
+            { time: 10, text: "Основная тема песни" },
+            { time: 15, text: "Атмосфера момента" },
+            { time: 20, text: "Наслаждение ритмом" },
+            { time: 25, text: "Мир вокруг замирает" },
+            { time: 30, text: "Я залипаю в потолок..." }
+        ];
 
         bgMusic.src = "music.mp3";
-
         function triggerGlitchFlash(duration = 200) {
             tvNoise.classList.add('glitch-flash');
             setTimeout(() => { tvNoise.classList.remove('glitch-flash'); }, duration);
@@ -314,16 +305,6 @@
             setTimeout(() => { heart.remove(); }, 4000);
         }
 
-        function updateTogetherTimer() {
-            const now = new Date();
-            const diff = now - startDate;
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-            togetherTimerEl.textContent = `мы вместе: ${days}д ${hours}ч ${minutes}м ${seconds}с`;
-        }
-        setInterval(updateTogetherTimer, 1000);
         const flipCards = document.querySelectorAll('.flip-card');
         flipCards.forEach(card => {
             card.addEventListener('click', () => {
@@ -347,10 +328,8 @@
                     bgMusic.play().catch(() => {});
                 } catch(e) {}
                 resetIdleTimer();
-                updateTogetherTimer();
             }, 600);
         });
-
         playerToggle.addEventListener('click', () => {
             triggerGlitchFlash(120);
             if (bgMusic.paused) {
@@ -363,15 +342,12 @@
         });
 
         const trackItems = document.querySelectorAll('.track-item');
-        trackItems.forEach((item, index) => {
+        trackItems.forEach(item => {
             item.addEventListener('click', (e) => {
                 e.stopPropagation();
                 triggerGlitchFlash(150);
                 trackItems.forEach(t => t.classList.remove('active'));
                 item.classList.add('active');
-
-                // Сохраняем точный индекс включенной песни (0, 1 или 2)
-                currentTrackIndex = index;
 
                 bgMusic.src = item.getAttribute('data-src');
                 playerTrackTitle.textContent = item.textContent.replace(/^\d+\.\s*/, '') + " (A-Side)";
@@ -415,12 +391,18 @@
             setTimeout(() => { beerCountEl.style.transform = 'scale(1)'; }, 120);
         });
 
-        // Умная синхронизация строк строго по сохраненному индексу currentTrackIndex
+        // Железобетонная проверка текущей аудиодорожки по имени файла в src
         function updateLyrics() {
             if (!idleScreen.classList.contains('active-idle')) return;
 
-            // Берем массив текста именно для той песни, которую включили (0, 1 или 2)
-            const trackLyrics = allTracksLyrics[currentTrackIndex] || allTracksLyrics[0];
+            const currentTrackFile = bgMusic.src.split('/').pop().toLowerCase();
+            let trackLyrics = lyricsMaYaLayu;
+
+            if (currentTrackFile.includes('track2')) {
+                trackLyrics = lyricsEy;
+            } else if (currentTrackFile.includes('track3')) {
+                trackLyrics = lyricsGryaznyKayf;
+            }
 
             const currentTime = bgMusic.currentTime;
             let currentText = "Я залипаю в потолок...";
@@ -431,8 +413,8 @@
                 }
             }
 
-            if (document.body.classList.contains('drunk-mode') && currentTrackIndex === 0 && currentText.includes("Я блевал на полу")) {
-                currentText = "Я блевал на полу, не от пойла, но... Ты по-прежнему бро мой. Я люблю тебя! 🖤";
+            if (document.body.classList.contains('drunk-mode') && currentTrackFile.includes('music') && currentText.includes("Сложные моменты")) {
+                currentText = "Сложные моменты жизни... Но ты по-прежнему бро мой. Я люблю тебя! 🖤";
             }
 
             if (lyricsLine.textContent !== currentText) {
@@ -441,7 +423,7 @@
                 setTimeout(() => {
                     lyricsLine.textContent = currentText;
                     
-                    if (currentText.includes("Я блевал на полу") || currentText.includes("Я люблю тебя")) {
+                    if (currentText.includes("Сложные моменты") || currentText.includes("Я люблю тебя")) {
                         lyricsLine.classList.add('highlight-lyrics');
                     } else {
                         lyricsLine.classList.remove('highlight-lyrics');
@@ -454,7 +436,6 @@
         }
 
         bgMusic.addEventListener('timeupdate', updateLyrics);
-
         function resetIdleTimer() {
             if (idleScreen.classList.contains('active-idle')) {
                 bgMusic.volume = 0.15;
